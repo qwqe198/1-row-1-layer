@@ -173,6 +173,7 @@ if(hasUpgrade("bg",15))pow=pow.add(upgradeEffect("bg",15))
         let eff = n(pow).pow(player.bg.points)
 if(hasUpgrade("bg",23))eff=eff.mul(upgradeEffect("bg",23))
 if(hasUpgrade("bg",21))eff=eff.pow(2)
+if(player.bg.points.lt(1))eff=n(0)
         return eff
     },
 geff() {
