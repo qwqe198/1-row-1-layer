@@ -53,7 +53,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-function () { return `作者 22222 残局3增强里程碑` },
+function () { return `作者 22222 残局4增强里程碑` },
 
 
 ]

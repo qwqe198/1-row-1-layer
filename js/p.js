@@ -30,8 +30,10 @@ if(hasUpgrade("p",21))mult=mult.mul(1.8)
 if(hasUpgrade("bg",11))mult=mult.mul(upgradeEffect("bg",11))
 if(hasUpgrade("bg",12))mult=mult.mul(upgradeEffect("bg",12))
 if(hasUpgrade("p",23))mult=mult.mul(upgradeEffect("p",23))
+if(hasUpgrade("tes",13))mult=mult.mul(upgradeEffect("tes",13))
 mult=mult.mul(n(1.8).pow(buyableEffect("tes", 11).mul(2).pow(1.3)))
 mult=mult.mul(layers.tes.teeff())
+mult=mult.mul(buyableEffect("tes",22))
 if(hasUpgrade("p",31))mult=mult.pow(1.05)
         return mult
     },
@@ -82,7 +84,7 @@ if(hasUpgrade("p",31))mult=mult.pow(1.05)
 				description: "点数获取基于你已购买的声望升级更快。",
 				cost() { return new ExpantaNum(75) },
 				effect() {
-					let eff = n(1.4).pow(player.p.upgrades.length);
+					let eff = n(hasUpgrade("p",32)?1.6:1.4).pow(player.p.upgrades.length);
 					
 					return eff;
 				},
@@ -108,6 +110,12 @@ if(hasUpgrade("p",31))mult=mult.pow(1.05)
             unlocked() { return hasUpgrade("p",23) },
 
         },
+ 32: {
+            description: "p升级22效果变得更好",
+            cost() { return new ExpantaNum(1e63) },
+            unlocked() { return hasUpgrade("p",31) },
+
+        },
 51: {
 				description: "降低增幅器和生成器需求",
 				cost() { return new ExpantaNum(5000000) },
@@ -128,7 +136,7 @@ if(hasUpgrade("p",31))mult=mult.pow(1.05)
             let kept = ["unlocked", "auto"]
            
                 
-              if (hasMilestone("bg", 1)) kept.push("upgrades")
+              if (hasMilestone("bg", 1)||hasMilestone("tes", 3)) kept.push("upgrades")
             layerDataReset(this.layer, kept)
         }
     },

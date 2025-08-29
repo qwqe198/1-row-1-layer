@@ -35,7 +35,8 @@ let pow=n(2)
 pow=pow.add(buyableEffect("tes", 11))
 if(hasUpgrade("bg",13))pow=pow.add(upgradeEffect("bg",13))
 if(hasUpgrade("bg",15))pow=pow.add(upgradeEffect("bg",15))
-if(hasUpgrade("tes",11))pow=pow.add(upgradeEffect("tes",11))
+if(hasUpgrade("tes",11)&&!hasUpgrade("tes",15))pow=pow.add(upgradeEffect("tes",11))
+if(hasUpgrade("tes",15))pow=pow.mul(upgradeEffect("tes",11))
         let eff = n(pow).pow(player.bg.points)
 if(hasUpgrade("bg",23))eff=eff.mul(upgradeEffect("bg",23))
 if(hasUpgrade("bg",21))eff=eff.pow(2)
@@ -44,7 +45,7 @@ if(player.bg.points.lt(1))eff=n(0)
     },
 geff() {
 let pow=n(2)
-if(hasUpgrade("p",52))pow=player.bg.g.plus(1).log10().pow(0.375).plus(2)
+if(hasUpgrade("p",52))pow=player.bg.g.plus(1).log10().pow(hasUpgrade("tes",12)?0.4:0.375).plus(2)
         let eff = player.bg.g.plus(1).log10().plus(1).pow(pow)
 if(hasUpgrade("bg",24))eff=eff.pow(1.2)
         return eff
@@ -206,8 +207,18 @@ milestones: {
             unlocked() { return hasUpgrade("bg",22) },
 
         },
-
+ 
     },
+ doReset(resettingLayer) {
+        if (layers[resettingLayer].row > layers[this.layer].row) {
+            let kept = ["unlocked", "auto"]
+           
+                
+              if (hasMilestone("tes",4)) kept.push("milestones")
+            layerDataReset(this.layer, kept)
+        }
+    },
+autoPrestige() { return hasMilestone("tes",4) },
 hotkeys: [
         { key: "b", description: "b: 进行增幅器和生成器重置", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
     ],

@@ -61,8 +61,13 @@ milestones: {
     },
 3: {
         requirementDescription: "2时间胶囊和空间能量",
-        effectDescription: "重置时保留p升级,解锁空间建筑2(咕咕咕)",
+        effectDescription: "重置时保留p升级,解锁空间建筑2",
         done() { return player.tes.points.gte(2) }
+    },
+4: {
+        requirementDescription: "3时间胶囊和空间能量",
+        effectDescription: "重置时保留bg里程碑,自动获取增幅器和生成器(咕咕咕)",
+        done() { return player.tes.points.gte(3) }
     },
 },
 buyables: {
@@ -83,6 +88,7 @@ buyables: {
                 return "增强子"
             },
             effect(x = getBuyableAmount(this.layer, this.id)) {
+if(hasUpgrade("tes",14))x=x.add(1);
                  let eff = x.mul(0.8);
 
                 return eff
@@ -134,6 +140,29 @@ buyables: {
             unlocked() { return getBuyableAmount("tes", 12).gte(1) },
  style: {'height':'120px','width':'120px'},
         },
+22: {
+            cost(x = getBuyableAmount(this.layer, this.id)) {
+                var c = n(1e70).pow(n(1.05).pow(x))
+
+                return c
+ },
+            display() { return `声望获取<br />x${format(buyableEffect(this.layer, this.id))}(基于空间能量提升).花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}gp<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
+            canAfford() { return player.bg.g.gte(this.cost()) },
+            buy() {
+                player.bg.g = player.bg.g.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            title() {
+                return "空间建筑2"
+            },
+            effect(x = getBuyableAmount(this.layer, this.id)) {
+                 let eff = x.add(1).pow(player.tes.ts);
+
+                return eff
+            },
+            unlocked() { return hasMilestone("tes", 3) },
+ style: {'height':'120px','width':'120px'},
+        },
     },
 upgrades: {
  11: {
@@ -148,8 +177,39 @@ upgrades: {
             unlocked() { return true },
 
         },
-      
+     12: {
+				description: "修改gp效果公式lgx^(lgx^0.375)<br />>lgx^(lgx^0.4)",
+				cost() { return new ExpantaNum(5e10) },
+				unlocked() { return hasUpgrade("tes",11) },
+				
+			
+			}, 
+13: {
+            description: "增强点数提升声望获取",
+            cost() { return new ExpantaNum(1e12) },
+ effect() {
+                let b = player.tes.points.pow(0.2)
+                
+                return b;
+            },
+            effectDisplay() { return format(this.effect()) + "倍"  },
+            unlocked() { return hasUpgrade("tes",12) },
 
+        },
+14: {
+				description: "获得一个免费的增强子",
+				cost() { return new ExpantaNum(1e14) },
+				unlocked() { return hasUpgrade("tes",13) },
+				
+			
+			}, 
+15: {
+				description: "升级11的效果对助推器改成乘算",
+				cost() { return new ExpantaNum(3.5e15) },
+				unlocked() { return hasUpgrade("tes",14) },
+				
+			
+			}, 
     },
 tabFormat: {
 "upg": {
