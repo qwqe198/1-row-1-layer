@@ -38,7 +38,7 @@ te: new ExpantaNum(0),
   tegain() { // 资源获取指数加成(与exponent相乘)
 var pow=n(2)
         var gain = n(pow).pow(getBuyableAmount(this.layer, 12))
-if(getBuyableAmount(this.layer, 12).lt(1))eff=n(0)
+if(getBuyableAmount(this.layer, 12).lt(1))gain=n(0)
         return gain
     },
 teeff() { // 资源获取指数加成(与exponent相乘)
