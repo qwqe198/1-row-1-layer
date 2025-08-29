@@ -69,7 +69,7 @@ if(hasUpgrade("p",31))mult=mult.pow(1.05)
             unlocked() { return hasUpgrade("p",12) },
  effect() {
                 let b = player.points.plus(1).log10().pow(0.75).plus(1)
-                
+                if(hasUpgrade("p",33))b=b.pow(upgradeEffect("p",33))
                 return b;
             },
             effectDisplay() { return format(this.effect()) + "倍" },
@@ -98,6 +98,7 @@ if(hasUpgrade("p",31))mult=mult.pow(1.05)
 				effect() {
 					let eff = player.points.plus(1).log10().pow(0.5).plus(1)
 					if(hasUpgrade("bg",22))eff=eff.pow(1.5)
+if(hasUpgrade("p",33))eff=eff.pow(upgradeEffect("p",33))
 					return eff;
 				},
 				unlocked() { return hasUpgrade("p",22) },
@@ -114,6 +115,18 @@ if(hasUpgrade("p",31))mult=mult.pow(1.05)
             description: "p升级22效果变得更好",
             cost() { return new ExpantaNum(1e63) },
             unlocked() { return hasUpgrade("p",31) },
+
+        },
+33: {
+            description: "上面两个升级基于声望变得更好",
+ effect() {
+                let b = player.p.points.plus(1).log10().pow(0.1).plus(1)
+                
+                return b;
+            },
+            effectDisplay() { return "^"+format(this.effect())  },
+            cost() { return new ExpantaNum(1e153) },
+            unlocked() { return hasUpgrade("p",32) },
 
         },
 51: {

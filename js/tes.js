@@ -66,8 +66,18 @@ milestones: {
     },
 4: {
         requirementDescription: "3时间胶囊和空间能量",
-        effectDescription: "重置时保留bg里程碑,自动获取增幅器和生成器(咕咕咕)",
+        effectDescription: "重置时保留bg里程碑,自动获取增幅器和生成器",
         done() { return player.tes.points.gte(3) }
+    },
+5: {
+        requirementDescription: "4时间胶囊和空间能量",
+        effectDescription: "自动购买bg升级",
+        done() { return player.tes.points.gte(4) }
+    },
+6: {
+        requirementDescription: "5时间胶囊和空间能量",
+        effectDescription: "bg不重置任何东西(咕咕咕)",
+        done() { return player.tes.points.gte(5) }
     },
 },
 buyables: {
@@ -89,6 +99,7 @@ buyables: {
             },
             effect(x = getBuyableAmount(this.layer, this.id)) {
 if(hasUpgrade("tes",14))x=x.add(1);
+if(hasUpgrade("tes",21))x=x.add(2);
                  let eff = x.mul(0.8);
 
                 return eff
@@ -133,6 +144,7 @@ if(hasUpgrade("tes",14))x=x.add(1);
                 return "空间建筑1"
             },
             effect(x = getBuyableAmount(this.layer, this.id)) {
+if(hasUpgrade("tes",24))x=x.pow(1.5);
                  let eff = x.add(1).pow(player.tes.ts);
 
                 return eff
@@ -156,6 +168,7 @@ if(hasUpgrade("tes",14))x=x.add(1);
                 return "空间建筑2"
             },
             effect(x = getBuyableAmount(this.layer, this.id)) {
+if(hasUpgrade("tes",24))x=x.pow(1.5);
                  let eff = x.add(1).pow(player.tes.ts);
 
                 return eff
@@ -210,6 +223,45 @@ upgrades: {
 				
 			
 			}, 
+21: {
+          
+            description: "再获得2个免费增强子",
+            cost() { return n(1e22) },
+            unlocked() { return hasUpgrade("tes", 15) },
+        },
+22: {
+          
+            description: "增强子加成gp获取",
+ effect() {
+                let b = n(1.5).pow(buyableEffect(this.layer, 11).mul(2).pow(1.3))
+                
+                return b;
+            },
+            effectDisplay() { return format(this.effect()) + "倍"  },
+            cost() { return n(1e24) },
+            unlocked() { return hasUpgrade("tes", 21) },
+        },
+23: {
+				description: "时间胶囊提升gp效果",
+				cost() { return new ExpantaNum(4) },
+ effect() {
+                let b = player.tes.ts.plus(1).log10().plus(1).pow(0.75)
+                
+                return b;
+            },
+            effectDisplay() { return "^"+format(this.effect())  },
+				unlocked() { return hasUpgrade("tes",22) },
+				currencyDisplayName: "时间胶囊",
+            currencyInternalName: "ts",
+            currencyLayer: "tes",
+			
+			}, 
+24: {
+          
+            description: "前2个空间建筑等级^1.5",
+            cost() { return n(1e37) },
+            unlocked() { return hasUpgrade("tes", 23) },
+        },
     },
 tabFormat: {
 "upg": {

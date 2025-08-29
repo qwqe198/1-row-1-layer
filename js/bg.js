@@ -27,7 +27,7 @@ if(hasUpgrade("bg",14))pow=pow.add(upgradeEffect("bg",14))
 if(hasUpgrade("tes",11))pow=pow.add(upgradeEffect("tes",11))
 if(hasUpgrade("bg",16))pow=pow.add(upgradeEffect("bg",16))
         let eff = n(pow).pow(player.bg.points)
-
+if(eff.gte(1e100))eff=eff.pow(0.2).mul(1e80)
         return eff
     },
 ggain() {
@@ -39,15 +39,17 @@ if(hasUpgrade("tes",11)&&!hasUpgrade("tes",15))pow=pow.add(upgradeEffect("tes",1
 if(hasUpgrade("tes",15))pow=pow.mul(upgradeEffect("tes",11))
         let eff = n(pow).pow(player.bg.points)
 if(hasUpgrade("bg",23))eff=eff.mul(upgradeEffect("bg",23))
+if(hasUpgrade("tes",22))eff=eff.mul(upgradeEffect("tes",22))
 if(hasUpgrade("bg",21))eff=eff.pow(2)
 if(player.bg.points.lt(1))eff=n(0)
         return eff
     },
 geff() {
 let pow=n(2)
-if(hasUpgrade("p",52))pow=player.bg.g.plus(1).log10().pow(hasUpgrade("tes",12)?0.4:0.375).plus(2)
+if(hasUpgrade("p",52))pow=player.bg.g.plus(1).log10().pow(hasUpgrade("bg",25)?0.425:hasUpgrade("tes",12)?0.4:0.375).plus(2)
         let eff = player.bg.g.plus(1).log10().plus(1).pow(pow)
 if(hasUpgrade("bg",24))eff=eff.pow(1.2)
+if(hasUpgrade("tes",23))eff=eff.pow(upgradeEffect("tes",23))
         return eff
     },
     exponent(){
@@ -207,7 +209,15 @@ milestones: {
             unlocked() { return hasUpgrade("bg",22) },
 
         },
- 
+ 25: {
+            description: "修改gp效果公式lgx^(lgx^0.4)<br />>lgx^(lgx^0.425)",
+            cost() { return new ExpantaNum("1e375") },
+
+            unlocked() { return hasUpgrade("bg",16) },
+ currencyDisplayName: "gp",
+            currencyInternalName: "g",
+            currencyLayer: "bg",
+        },
     },
  doReset(resettingLayer) {
         if (layers[resettingLayer].row > layers[this.layer].row) {
@@ -222,4 +232,5 @@ autoPrestige() { return hasMilestone("tes",4) },
 hotkeys: [
         { key: "b", description: "b: 进行增幅器和生成器重置", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
     ],
+autoUpgrade() { return hasMilestone("tes", 5)  },
 })
