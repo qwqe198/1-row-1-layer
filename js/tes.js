@@ -64,22 +64,22 @@ milestones: {
 3: {
         requirementDescription: "2时间胶囊和空间能量",
         effectDescription: "重置时保留p升级,解锁空间建筑2",
-        done() { return player.tes.points.gte(2) }
+        done() { return player.tes.ts.gte(2) }
     },
 4: {
         requirementDescription: "3时间胶囊和空间能量",
         effectDescription: "重置时保留bg里程碑,自动获取增幅器和生成器",
-        done() { return player.tes.points.gte(3) }
+        done() { return player.tes.ts.gte(3) }
     },
 5: {
         requirementDescription: "4时间胶囊和空间能量",
         effectDescription: "自动购买bg升级",
-        done() { return player.tes.points.gte(4) }
+        done() { return player.tes.ts.gte(4) }
     },
 6: {
         requirementDescription: "5时间胶囊和空间能量",
         effectDescription: "bg不重置任何东西",
-        done() { return player.tes.points.gte(5) }
+        done() { return player.tes.ts.gte(5) }
     },
 },
 buyables: {
