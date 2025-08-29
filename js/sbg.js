@@ -39,7 +39,7 @@ geff() {
 let pow=n(0.5)
 
         let eff = player.sbg.g.plus(1).log10().plus(1).pow(pow)
-
+if (hasMilestone("sbg",3))eff=eff.mul(player.sbg.points.plus(1).log10().plus(1))
         return eff
     },
     exponent(){
@@ -78,6 +78,16 @@ milestones: {
         requirementDescription: "2超级增幅器和生成器",
         effectDescription: "自动购买tes升级,bg升级13到16效果基于时间胶囊和空间能量增加",
         done() { return player.sbg.points.gte(2) }
+    },
+3: {
+        requirementDescription: "3超级增幅器和生成器",
+        effectDescription: "每秒自动获得100%增强点,sgp效果基于超级增幅器和生成器增强",
+        done() { return player.sbg.points.gte(3) }
+    },
+4: {
+        requirementDescription: "4超级增幅器和生成器",
+        effectDescription: "p升级33效果基于超级增幅器和生成器增强",
+        done() { return player.sbg.points.gte(4) }
     },
 },
      

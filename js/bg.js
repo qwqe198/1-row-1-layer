@@ -28,6 +28,7 @@ if(hasUpgrade("tes",11))pow=pow.add(upgradeEffect("tes",11))
 if(hasUpgrade("bg",16))pow=pow.add(upgradeEffect("bg",16))
 pow=pow.mul(layers.sbg.beff())
 if(hasUpgrade("tes",32))pow=pow.pow(upgradeEffect("tes",32))
+pow=pow.mul(buyableEffect("tes",23))
         let eff = n(pow).pow(player.bg.points)
 if(eff.gte(1e100))eff=eff.pow(0.2).mul(1e80)
         return eff
@@ -40,11 +41,15 @@ if(hasUpgrade("bg",15))pow=pow.add(upgradeEffect("bg",15))
 if(hasUpgrade("tes",11)&&!hasUpgrade("tes",15))pow=pow.add(upgradeEffect("tes",11))
 if(hasUpgrade("tes",15))pow=pow.mul(upgradeEffect("tes",11))
 if(hasUpgrade("bg",31))pow=pow.mul(upgradeEffect("bg",31))
+pow=pow.mul(buyableEffect("tes",23))
 pow=pow.mul(layers.sbg.geff())
         let eff = n(pow).pow(player.bg.points)
 if(hasUpgrade("bg",23))eff=eff.mul(upgradeEffect("bg",23))
 if(hasUpgrade("tes",25))eff=eff.mul(upgradeEffect("tes",25))
 if(hasUpgrade("tes",22))eff=eff.mul(upgradeEffect("tes",22))
+if(hasUpgrade("tes",42))eff=eff.mul(layers.tes.teeff())
+if(hasUpgrade("tes",43))eff=eff.mul(buyableEffect("tes",21))
+if(hasUpgrade("tes",43))eff=eff.mul(buyableEffect("tes",22))
 if(hasUpgrade("bg",21))eff=eff.pow(2)
 if(hasUpgrade("bg",32))eff=eff.pow(1.28)
 if(player.bg.points.lt(1))eff=n(0)
@@ -250,6 +255,20 @@ milestones: {
 
             unlocked() { return hasUpgrade("bg",31) },
 
+        },
+33: {
+            description: "超级增幅器提升声望获取",
+ effect() {
+                let b = n(1000).pow(player.sbg.points.pow(2))
+                
+                return b;
+            },
+            effectDisplay() { return "x"+format(this.effect())  },
+            cost() { return new ExpantaNum("1e3300") },
+            unlocked() { return hasUpgrade("bg",24) },
+ currencyDisplayName: "gp",
+            currencyInternalName: "g",
+            currencyLayer: "bg",
         },
     },
  doReset(resettingLayer) {

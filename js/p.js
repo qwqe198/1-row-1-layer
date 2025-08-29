@@ -29,6 +29,7 @@ addLayer("p", { //这是代码中的节点代码 例如player.p可以调用该�
 if(hasUpgrade("p",21))mult=mult.mul(1.8)
 if(hasUpgrade("bg",11))mult=mult.mul(upgradeEffect("bg",11))
 if(hasUpgrade("bg",12))mult=mult.mul(upgradeEffect("bg",12))
+if(hasUpgrade("bg",33))mult=mult.mul(upgradeEffect("bg",33))
 if(hasUpgrade("p",23))mult=mult.mul(upgradeEffect("p",23))
 if(hasUpgrade("tes",13))mult=mult.mul(upgradeEffect("tes",13))
 mult=mult.mul(n(1.8).pow(buyableEffect("tes", 11).mul(2).pow(1.3)))
@@ -58,7 +59,7 @@ if(hasUpgrade("p",31))mult=mult.pow(1.05)
             unlocked() { return hasUpgrade("p",11) },
  effect() {
                 let b = player.p.points.plus(2).pow(0.5)
-                
+                if(b.gte("1e1000"))b=b.log10().pow(1000/3)
                 return b;
             },
             effectDisplay() { return format(this.effect()) + "倍" },
@@ -121,7 +122,7 @@ if(hasUpgrade("p",33))eff=eff.pow(upgradeEffect("p",33))
             description: "上面两个升级基于声望变得更好",
  effect() {
                 let b = player.p.points.plus(1).log10().pow(0.1).plus(1)
-                
+                if (hasMilestone("sbg",4))b=b.mul(player.sbg.points.plus(1))
                 return b;
             },
             effectDisplay() { return "^"+format(this.effect())  },

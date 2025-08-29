@@ -39,13 +39,15 @@ if(hasUpgrade("tes",34))mult=mult.mul(upgradeEffect("tes",34))
   tegain() { // 资源获取指数加成(与exponent相乘)
 var pow=n(2)
 if(hasMilestone("sbg",1))var pow=n(player.tes.ts).plus(2)
-        var gain = n(pow).pow(getBuyableAmount(this.layer, 12))
+pow=pow.add(getBuyableAmount(this.layer, 13))
+        var gain = n(pow).pow(getBuyableAmount(this.layer, 12).add(getBuyableAmount(this.layer, 13)))
 if(getBuyableAmount(this.layer, 12).lt(1))gain=n(0)
         return gain
     },
 teeff() { // 资源获取指数加成(与exponent相乘)
 var pow=n(1.5)
 let eff = player.tes.te.plus(1).log10().plus(1).pow(pow)
+if(hasUpgrade("tes",41))eff=eff.pow(upgradeEffect("tes",41))
         return eff
     },
     layerShown() { return player.points.gte(1e30)||player.tes.points.gte(1)||getBuyableAmount(this.layer, 11).gte(1) },
@@ -81,6 +83,11 @@ milestones: {
         effectDescription: "bg不重置任何东西",
         done() { return player.tes.ts.gte(5) }
     },
+7: {
+        requirementDescription: "10时间胶囊和空间能量",
+        effectDescription: "解锁额外时间胶囊(计入时间胶囊效果,不计入升级加成)",
+        done() { return player.tes.ts.gte(10) }
+    },
 },
 buyables: {
        
@@ -103,6 +110,7 @@ buyables: {
 if(hasUpgrade("tes",14))x=x.add(1);
 if(hasUpgrade("tes",21))x=x.add(2);
 if(hasUpgrade("tes",33))x=x.add(upgradeEffect("tes",33));
+if(hasUpgrade("tes",51))x=x.add(upgradeEffect("tes",51));
                  let eff = x.mul(0.8);
 
                 return eff
@@ -123,6 +131,28 @@ if(hasUpgrade("tes",33))x=x.add(upgradeEffect("tes",33));
             },
             title() {
                 return "获得时间胶囊和空间能量"
+            },
+            effect(x = getBuyableAmount(this.layer, this.id)) {
+                 let eff = x;
+
+                return eff
+            },
+            unlocked() { return hasMilestone("tes", 2) },
+        },
+13: {
+            cost(x = getBuyableAmount(this.layer, this.id)) {
+                var c = n(180).add(x.mul(5).pow(1.25))
+
+                return c
+ },
+            display() { return `你有:${format(buyableEffect(this.layer, this.id))}额外时间胶囊 花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}增幅器` },
+            canAfford() { return player.bg.points.gte(this.cost()) },
+            buy() {
+                player.bg.points = player.bg.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            title() {
+                return "获得额外时间胶囊"
             },
             effect(x = getBuyableAmount(this.layer, this.id)) {
                  let eff = x;
@@ -175,6 +205,30 @@ if(hasUpgrade("tes",31))x=x.pow(1.5);
 if(hasUpgrade("tes",24))x=x.pow(1.5);
 if(hasUpgrade("tes",31))x=x.pow(1.5);
                  let eff = x.add(1).pow(player.tes.ts);
+
+                return eff
+            },
+            unlocked() { return hasMilestone("tes", 3) },
+ style: {'height':'120px','width':'120px'},
+        },
+23: {
+            cost(x = getBuyableAmount(this.layer, this.id)) {
+                var c = n("1e3550").pow(n(1.05).pow(x))
+
+                return c
+ },
+            display() { return `增幅器和生成器效果底数<br />x${format(buyableEffect(this.layer, this.id))}(基于空间能量提升).花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}gp<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
+            canAfford() { return player.bg.g.gte(this.cost()) },
+            buy() {
+                player.bg.g = player.bg.g.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            title() {
+                return "空间建筑3"
+            },
+            effect(x = getBuyableAmount(this.layer, this.id)) {
+
+                 let eff = x.mul(player.tes.ts.mul(0.01)).add(1);
 
                 return eff
             },
@@ -251,7 +305,7 @@ upgrades: {
 				cost() { return new ExpantaNum(4) },
  effect() {
                 let b = player.tes.ts.plus(1).log10().plus(1).pow(0.75)
-                
+                if(hasUpgrade("tes",52))b = player.tes.ts.add(buyableEffect("tes",13)).plus(1).log10().plus(1).pow(0.75)
                 return b;
             },
             effectDisplay() { return "^"+format(this.effect())  },
@@ -296,7 +350,7 @@ upgrades: {
             unlocked() { return hasUpgrade("tes", 31) },
  effect() {
                 let b = player.tes.ts.plus(1).log10().plus(1).pow(0.5)
-                
+                if(hasUpgrade("tes",45))b = player.tes.ts.add(buyableEffect("tes",13)).plus(1).log10().plus(1).pow(0.5)
                 return b;
             },
  
@@ -340,6 +394,81 @@ upgrades: {
             unlocked() { return hasUpgrade("tes", 34) },
 
 	
+        },
+41: {
+          
+            description: "时间能量效果基于时间胶囊提升",
+            cost() { return n(1e121) },
+            unlocked() { return hasUpgrade("tes", 35) },
+ effect() {
+                let b = player.tes.ts.plus(1)
+                
+                return b;
+            },
+ 
+            effectDisplay() { return "^"+format(this.effect())  },
+	
+        },
+42: {
+          
+            description: "时间能量效果影响gp获取",
+            cost() { return n(1e141) },
+            unlocked() { return hasUpgrade("tes", 41) },
+
+	
+        },
+43: {
+          
+            description: "前2个空间建筑影响gp获取",
+            cost() { return n(1e142) },
+            unlocked() { return hasUpgrade("tes", 42) },
+
+	
+        },
+44: {
+          
+            description: "解锁第三空间建筑",
+            cost() { return n(14) },
+            unlocked() { return hasUpgrade("tes", 43) },
+	currencyDisplayName: "空间能量",
+            currencyInternalName: "ts",
+            currencyLayer: "tes",
+        },
+45: {
+          
+            description: "额外时间胶囊对升级32生效",
+            cost() { return n(1e32) },
+            unlocked() { return hasUpgrade("tes", 44) },
+
+	currencyDisplayName: "时间能量",
+            currencyInternalName: "te",
+            currencyLayer: "tes",
+        },
+51: {
+          
+            description: "额外时间胶囊提供免费增强子",
+            cost() { return n(1e34) },
+            unlocked() { return hasUpgrade("tes", 45) },
+ effect() {
+                let b = buyableEffect("tes",13).plus(1)
+                
+                return b;
+            },
+ 
+            effectDisplay() { return "+"+format(this.effect()) },
+	currencyDisplayName: "时间能量",
+            currencyInternalName: "te",
+            currencyLayer: "tes",
+        },
+52: {
+          
+            description: "额外时间胶囊对升级23生效",
+            cost() { return n(1e41) },
+            unlocked() { return hasUpgrade("tes", 51) },
+
+	currencyDisplayName: "时间能量",
+            currencyInternalName: "te",
+            currencyLayer: "tes",
         },
     },
 tabFormat: {
@@ -410,6 +539,10 @@ tabFormat: {
 
     },
 autoUpgrade() { return hasMilestone("sbg",2) },
+ passiveGeneration() {
+        if (hasMilestone("sbg", 3)) return 1
+        return 0
+    },
  update(diff) {
 player.tes.ts=player.tes.ts.max(getBuyableAmount(this.layer, 12))
     player.tes.te=player.tes.te.add(layers.tes.tegain().mul(diff))
