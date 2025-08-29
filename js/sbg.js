@@ -36,7 +36,7 @@ if(player.sbg.points.lt(1))eff=n(0)
         return eff
     },
 geff() {
-let pow=n(0.5)
+let pow=n(hasUpgrade("tes", 55)?1:0.5)
 
         let eff = player.sbg.g.plus(1).log10().plus(1).pow(pow)
 if (hasMilestone("sbg",3))eff=eff.mul(player.sbg.points.plus(1).log10().plus(1))

@@ -52,6 +52,7 @@ if(hasUpgrade("tes",43))eff=eff.mul(buyableEffect("tes",21))
 if(hasUpgrade("tes",43))eff=eff.mul(buyableEffect("tes",22))
 if(hasUpgrade("bg",21))eff=eff.pow(2)
 if(hasUpgrade("bg",32))eff=eff.pow(1.28)
+if(hasUpgrade("tes",54))eff=eff.pow(1.0675)
 if(player.bg.points.lt(1))eff=n(0)
         return eff
     },

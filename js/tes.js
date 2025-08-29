@@ -177,6 +177,7 @@ if(hasUpgrade("tes",51))x=x.add(upgradeEffect("tes",51));
                 return "空间建筑1"
             },
             effect(x = getBuyableAmount(this.layer, this.id)) {
+if(hasUpgrade("tes",53))x=x.mul(buyableEffect("tes",23));
 if(hasUpgrade("tes",24))x=x.pow(1.5);
 if(hasUpgrade("tes",31))x=x.pow(1.5);
                  let eff = x.add(1).pow(player.tes.ts);
@@ -202,6 +203,7 @@ if(hasUpgrade("tes",31))x=x.pow(1.5);
                 return "空间建筑2"
             },
             effect(x = getBuyableAmount(this.layer, this.id)) {
+if(hasUpgrade("tes",53))x=x.mul(buyableEffect("tes",23));
 if(hasUpgrade("tes",24))x=x.pow(1.5);
 if(hasUpgrade("tes",31))x=x.pow(1.5);
                  let eff = x.add(1).pow(player.tes.ts);
@@ -469,6 +471,30 @@ upgrades: {
 	currencyDisplayName: "时间能量",
             currencyInternalName: "te",
             currencyLayer: "tes",
+        },
+53: {
+          
+            description: "第3空间建筑加成前2空间建筑等级",
+            cost() { return n("1e367") },
+            unlocked() { return hasUpgrade("tes", 52) },
+
+	
+        },
+54: {
+          
+            description: "gp获取^1.0675",
+            cost() { return n("1e386") },
+            unlocked() { return hasUpgrade("tes", 53) },
+
+	
+        },
+55: {
+          
+            description: "sgp效果变得更好,解锁新层级",
+            cost() { return n("1e390") },
+            unlocked() { return hasUpgrade("tes", 54) },
+
+	
         },
     },
 tabFormat: {
