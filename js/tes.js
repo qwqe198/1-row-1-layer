@@ -234,7 +234,7 @@ if(hasUpgrade("tes",31))x=x.pow(1.5);
 
                 return eff
             },
-            unlocked() { return hasMilestone("tes", 3) },
+            unlocked() { return hasUpgrade("tes",44) },
  style: {'height':'120px','width':'120px'},
         },
     },
