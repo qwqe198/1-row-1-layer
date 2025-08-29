@@ -44,6 +44,8 @@ gain=gain.mul(buyableEffect("tes",21))
 gain=gain.mul(layers.bg.beff())
 gain=gain.mul(layers.bg.geff())
 gain=gain.mul(layers.tes.teeff())
+gain=gain.mul(layers.hq.heff())
+gain=gain.mul(layers.hq.qeff())
 	return gain
 }
 
@@ -53,7 +55,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-function () { return `作者 22222 残局1e10000gp` },
+function () { return `作者 22222 残局2诡异层` },
 
 
 ]

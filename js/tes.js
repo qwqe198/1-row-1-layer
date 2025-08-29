@@ -36,15 +36,16 @@ if(hasUpgrade("tes",34))mult=mult.mul(upgradeEffect("tes",34))
 
         return exp
     },
-  tegain() { // 资源获取指数加成(与exponent相乘)
+  tegain() { 
 var pow=n(2)
 if(hasMilestone("sbg",1))var pow=n(player.tes.ts).plus(2)
 pow=pow.add(getBuyableAmount(this.layer, 13))
         var gain = n(pow).pow(getBuyableAmount(this.layer, 12).add(getBuyableAmount(this.layer, 13)))
+gain=gain.mul(layers.hq.heff())
 if(getBuyableAmount(this.layer, 12).lt(1))gain=n(0)
         return gain
     },
-teeff() { // 资源获取指数加成(与exponent相乘)
+teeff() { 
 var pow=n(1.5)
 let eff = player.tes.te.plus(1).log10().plus(1).pow(pow)
 if(hasUpgrade("tes",41))eff=eff.pow(upgradeEffect("tes",41))
@@ -111,7 +112,7 @@ if(hasUpgrade("tes",14))x=x.add(1);
 if(hasUpgrade("tes",21))x=x.add(2);
 if(hasUpgrade("tes",33))x=x.add(upgradeEffect("tes",33));
 if(hasUpgrade("tes",51))x=x.add(upgradeEffect("tes",51));
-                 let eff = x.mul(0.8);
+                 let eff = x.mul(hasMilestone("hq", 1)?1:0.8);
 
                 return eff
             },
@@ -572,6 +573,7 @@ autoUpgrade() { return hasMilestone("sbg",2) },
  update(diff) {
 player.tes.ts=player.tes.ts.max(getBuyableAmount(this.layer, 12))
     player.tes.te=player.tes.te.add(layers.tes.tegain().mul(diff))
+if(hasMilestone("hq", 1))setBuyableAmount(this.layer, 11, player.tes.points.add(1).log10().div(0.3010299956639812).root(1.5).floor().add(1).max(getBuyableAmount("tes", 11)))
     },
   hotkeys: [
         { key: "t", description: "t: 进行增强点数,时间胶囊和空间能量重置", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
