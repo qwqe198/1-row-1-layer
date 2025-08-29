@@ -30,7 +30,7 @@ if(player.hq.points.lt(1))eff=n(0)
  qeff() {
 let pow=n(2)
 
-        let eff = player.hq.q.pow(pow).max(1)
+        let eff = player.hq.q.max(1).pow(pow)
 
 
         return eff
