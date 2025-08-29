@@ -159,7 +159,7 @@ if(hasUpgrade("tes",51))x=x.add(upgradeEffect("tes",51));
 
                 return eff
             },
-            unlocked() { return hasMilestone("tes", 2) },
+            unlocked() { return hasMilestone("tes", 7) },
         },
  21: {
             cost(x = getBuyableAmount(this.layer, this.id)) {
