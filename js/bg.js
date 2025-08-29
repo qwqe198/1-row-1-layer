@@ -39,6 +39,7 @@ if(hasUpgrade("tes",11)&&!hasUpgrade("tes",15))pow=pow.add(upgradeEffect("tes",1
 if(hasUpgrade("tes",15))pow=pow.mul(upgradeEffect("tes",11))
         let eff = n(pow).pow(player.bg.points)
 if(hasUpgrade("bg",23))eff=eff.mul(upgradeEffect("bg",23))
+if(hasUpgrade("tes",25))eff=eff.mul(upgradeEffect("tes",25))
 if(hasUpgrade("tes",22))eff=eff.mul(upgradeEffect("tes",22))
 if(hasUpgrade("bg",21))eff=eff.pow(2)
 if(player.bg.points.lt(1))eff=n(0)
@@ -78,6 +79,7 @@ return req
 
         },
 canBuyMax() { return hasMilestone("bg", 3) },
+ resetsNothing() { return hasMilestone("tes",6) },
 milestones: {
     1: {
         requirementDescription: "5增幅器和生成器",
@@ -101,7 +103,7 @@ milestones: {
             cost() { return new ExpantaNum(3) },
  effect() {
                 let b = player.bg.points.pow(0.5).add(1)
-                
+                 if(hasUpgrade("bg",26))b=player.bg.points.pow(player.bg.points.pow(0.5)).add(1)
                 return b;
             },
             effectDisplay() { return format(this.effect()) + "倍" },
@@ -113,7 +115,7 @@ milestones: {
             cost() { return new ExpantaNum(3) },
  effect() {
                 let b = player.bg.points.pow(0.5).add(1)
-                
+                if(hasUpgrade("bg",26))b=player.bg.points.pow(player.bg.points.pow(0.5)).add(1)
                 return b;
             },
             effectDisplay() { return format(this.effect()) + "倍" },
@@ -213,10 +215,17 @@ milestones: {
             description: "修改gp效果公式lgx^(lgx^0.4)<br />>lgx^(lgx^0.425)",
             cost() { return new ExpantaNum("1e375") },
 
-            unlocked() { return hasUpgrade("bg",16) },
+            unlocked() { return hasUpgrade("bg",24) },
  currencyDisplayName: "gp",
             currencyInternalName: "g",
             currencyLayer: "bg",
+        },
+26: {
+            description: "前两个升级使用更好的公式",
+            cost() { return new ExpantaNum(91) },
+
+            unlocked() { return hasUpgrade("bg",25) },
+
         },
     },
  doReset(resettingLayer) {
@@ -227,6 +236,7 @@ milestones: {
               if (hasMilestone("tes",4)) kept.push("milestones")
             layerDataReset(this.layer, kept)
         }
+
     },
 autoPrestige() { return hasMilestone("tes",4) },
 hotkeys: [

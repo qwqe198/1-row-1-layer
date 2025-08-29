@@ -76,7 +76,7 @@ milestones: {
     },
 6: {
         requirementDescription: "5时间胶囊和空间能量",
-        effectDescription: "bg不重置任何东西(咕咕咕)",
+        effectDescription: "bg不重置任何东西",
         done() { return player.tes.points.gte(5) }
     },
 },
@@ -261,6 +261,19 @@ upgrades: {
             description: "前2个空间建筑等级^1.5",
             cost() { return n(1e37) },
             unlocked() { return hasUpgrade("tes", 23) },
+        },
+25: {
+            description: "gp再次加成gp获取",
+            cost() { return new ExpantaNum(1e44) },
+ effect() {
+                let b = player.bg.g.plus(1).log10().plus(1).pow(player.bg.g.plus(1).log10().pow(0.3))
+                
+                return b;
+            },
+ 
+            effectDisplay() { return format(this.effect()) + "倍"  },
+            unlocked() { return hasUpgrade("tes",24) },
+
         },
     },
 tabFormat: {
