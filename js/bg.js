@@ -1,6 +1,6 @@
 addLayer("bg", { //这是代码中的节点代码 例如player.p可以调用该层级的数据 尽量使用顺手的字母什么的 不建议数字开头
     symbol: "BG", // 这是节点上显示的字母
-    position: 3, // 节点顺序
+    position: 0, // 节点顺序
     startData() {
         return {
             unlocked: true, //是否开始就解锁
@@ -26,6 +26,8 @@ pow=pow.add(buyableEffect("tes", 11))
 if(hasUpgrade("bg",14))pow=pow.add(upgradeEffect("bg",14))
 if(hasUpgrade("tes",11))pow=pow.add(upgradeEffect("tes",11))
 if(hasUpgrade("bg",16))pow=pow.add(upgradeEffect("bg",16))
+pow=pow.mul(layers.sbg.beff())
+if(hasUpgrade("tes",32))pow=pow.pow(upgradeEffect("tes",32))
         let eff = n(pow).pow(player.bg.points)
 if(eff.gte(1e100))eff=eff.pow(0.2).mul(1e80)
         return eff
@@ -37,11 +39,14 @@ if(hasUpgrade("bg",13))pow=pow.add(upgradeEffect("bg",13))
 if(hasUpgrade("bg",15))pow=pow.add(upgradeEffect("bg",15))
 if(hasUpgrade("tes",11)&&!hasUpgrade("tes",15))pow=pow.add(upgradeEffect("tes",11))
 if(hasUpgrade("tes",15))pow=pow.mul(upgradeEffect("tes",11))
+if(hasUpgrade("bg",31))pow=pow.mul(upgradeEffect("bg",31))
+pow=pow.mul(layers.sbg.geff())
         let eff = n(pow).pow(player.bg.points)
 if(hasUpgrade("bg",23))eff=eff.mul(upgradeEffect("bg",23))
 if(hasUpgrade("tes",25))eff=eff.mul(upgradeEffect("tes",25))
 if(hasUpgrade("tes",22))eff=eff.mul(upgradeEffect("tes",22))
 if(hasUpgrade("bg",21))eff=eff.pow(2)
+if(hasUpgrade("bg",32))eff=eff.pow(1.28)
 if(player.bg.points.lt(1))eff=n(0)
         return eff
     },
@@ -56,7 +61,7 @@ if(hasUpgrade("tes",23))eff=eff.pow(upgradeEffect("tes",23))
     exponent(){
 let req=n(1.25)
 if(hasUpgrade("p",51))req=req.sub(0.04)
-
+if(hasUpgrade("p",53))req=req.sub(0.01)
 return req
 } ,
  base: 5,
@@ -128,8 +133,8 @@ milestones: {
             cost() { return new ExpantaNum(4) },
  effect() {
                 let b = player.bg.points.add(1).log10()
-                
-                return b;
+                if(hasMilestone("sbg",2))b=b.mul(player.tes.ts.plus(1))
+            return b;
             },
             effectDisplay() { return "+"+format(this.effect())  },
             unlocked() { return hasUpgrade("bg",11) },
@@ -140,7 +145,7 @@ milestones: {
             cost() { return new ExpantaNum(4) },
  effect() {
                 let b = player.bg.points.add(1).log10()
-                
+                if(hasMilestone("sbg",2))b=b.mul(player.tes.ts.plus(1))
                 return b;
             },
             effectDisplay() { return "+"+format(this.effect())  },
@@ -152,7 +157,7 @@ milestones: {
             cost() { return new ExpantaNum(5) },
  effect() {
                 let b = player.p.points.add(1).log10().add(1).log10()
-                
+                if(hasMilestone("sbg",2))b=b.mul(player.tes.ts.plus(1))
                 return b;
             },
             effectDisplay() { return "+"+format(this.effect())  },
@@ -164,7 +169,7 @@ milestones: {
             cost() { return new ExpantaNum(5) },
  effect() {
                 let b = player.p.points.add(1).log10().add(1).log10()
-                
+                if(hasMilestone("sbg",2))b=b.mul(player.tes.ts.plus(1))
                 return b;
             },
             effectDisplay() { return "+"+format(this.effect())  },
@@ -225,6 +230,25 @@ milestones: {
             cost() { return new ExpantaNum(91) },
 
             unlocked() { return hasUpgrade("bg",25) },
+
+        },
+31: {
+            description: "生成器加成自身基础",
+            cost() { return new ExpantaNum(132) },
+ effect() {
+                let b = player.bg.points.div(75).plus(1)
+                
+                return b;
+            },
+            effectDisplay() { return "x"+format(this.effect())  },
+            unlocked() { return hasUpgrade("bg",26) },
+
+        },
+32: {
+            description: "gp获取^1.28",
+            cost() { return new ExpantaNum(175) },
+
+            unlocked() { return hasUpgrade("bg",31) },
 
         },
     },

@@ -143,6 +143,13 @@ if(hasUpgrade("p",33))eff=eff.pow(upgradeEffect("p",33))
 				
 			
 			},
+53: {
+				description: "再次降低增幅器和生成器需求",
+				cost() { return new ExpantaNum("1e561") },
+				unlocked() { return hasUpgrade("p",33) },
+				
+			
+			},
     },
   doReset(resettingLayer) {
         if (layers[resettingLayer].row > layers[this.layer].row) {

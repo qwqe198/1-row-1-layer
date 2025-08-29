@@ -53,7 +53,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-function () { return `作者 22222 残局100增幅器和生成器` },
+function () { return `作者 22222 残局1e120增强` },
 
 
 ]
