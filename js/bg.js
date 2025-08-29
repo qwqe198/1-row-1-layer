@@ -24,6 +24,7 @@ g:new ExpantaNum(0),
 let pow=n(2)
 pow=pow.add(buyableEffect("tes", 11))
 if(hasUpgrade("bg",14))pow=pow.add(upgradeEffect("bg",14))
+if(hasUpgrade("tes",11))pow=pow.add(upgradeEffect("tes",11))
 if(hasUpgrade("bg",16))pow=pow.add(upgradeEffect("bg",16))
         let eff = n(pow).pow(player.bg.points)
 
@@ -34,6 +35,7 @@ let pow=n(2)
 pow=pow.add(buyableEffect("tes", 11))
 if(hasUpgrade("bg",13))pow=pow.add(upgradeEffect("bg",13))
 if(hasUpgrade("bg",15))pow=pow.add(upgradeEffect("bg",15))
+if(hasUpgrade("tes",11))pow=pow.add(upgradeEffect("tes",11))
         let eff = n(pow).pow(player.bg.points)
 if(hasUpgrade("bg",23))eff=eff.mul(upgradeEffect("bg",23))
 if(hasUpgrade("bg",21))eff=eff.pow(2)
@@ -49,7 +51,8 @@ if(hasUpgrade("bg",24))eff=eff.pow(1.2)
     },
     exponent(){
 let req=n(1.25)
-if(hasUpgrade("p",51))req=n(1.2)
+if(hasUpgrade("p",51))req=req.sub(0.04)
+
 return req
 } ,
  base: 5,
@@ -71,6 +74,7 @@ return req
                 player.bg.g =  player.bg.g.add(this.ggain().mul(diff))
 
         },
+canBuyMax() { return hasMilestone("bg", 3) },
 milestones: {
     1: {
         requirementDescription: "5增幅器和生成器",
@@ -81,6 +85,11 @@ milestones: {
         requirementDescription: "11增幅器和生成器",
         effectDescription: "每秒自动获取100%的声望点",
         done() { return player.bg.points.gte(11) }
+    },
+3: {
+        requirementDescription: "26增幅器和生成器",
+        effectDescription: "你可以购买最大增幅器和生成器",
+        done() { return player.bg.points.gte(26) }
     },
 },
       upgrades: {

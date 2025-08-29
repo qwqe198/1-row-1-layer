@@ -40,8 +40,10 @@ gain=n(1)
 if(hasUpgrade("p",12))gain=gain.mul(upgradeEffect("p",12))
 if(hasUpgrade("p",13))gain=gain.mul(upgradeEffect("p",13))
 if(hasUpgrade("p",22))gain=gain.mul(upgradeEffect("p",22))
+gain=gain.mul(buyableEffect("tes",21))
 gain=gain.mul(layers.bg.beff())
 gain=gain.mul(layers.bg.geff())
+gain=gain.mul(layers.tes.teeff())
 	return gain
 }
 
@@ -51,7 +53,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-function () { return `作者 22222 残局5增强子` },
+function () { return `作者 22222 残局3增强里程碑` },
 
 
 ]

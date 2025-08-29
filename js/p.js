@@ -31,6 +31,7 @@ if(hasUpgrade("bg",11))mult=mult.mul(upgradeEffect("bg",11))
 if(hasUpgrade("bg",12))mult=mult.mul(upgradeEffect("bg",12))
 if(hasUpgrade("p",23))mult=mult.mul(upgradeEffect("p",23))
 mult=mult.mul(n(1.8).pow(buyableEffect("tes", 11).mul(2).pow(1.3)))
+mult=mult.mul(layers.tes.teeff())
 if(hasUpgrade("p",31))mult=mult.pow(1.05)
         return mult
     },
