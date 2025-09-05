@@ -20,9 +20,9 @@ if(player.hq.points.lt(1))eff=n(1)
         return eff
     },  
  qgain() {
-let pow=n(2)
 
-        let eff = buyableEffect("hq", 11).pow(pow).max(1)
+
+        let eff = buyableEffect("hq", 11).max(1)
 
 if(player.hq.points.lt(1))eff=n(0)
         return eff
@@ -46,10 +46,10 @@ let pow=n(2)
         return 0
     },
 
-   exponent: 0.0005,
+   exponent: 0.001,
 
     baseAmount() { return player.bg.g },//基础资源数量
-    baseResource: "gp",//基础资源名称
+    baseResource: "生成器能量",//基础资源名称
     gainMult() { // 资源获取数量倍率
         mult = new ExpantaNum(1)
 
@@ -65,7 +65,7 @@ buyables: {
        
         11: {
             cost(x = getBuyableAmount(this.layer, this.id)) {
-                var c = n(2).pow(x.pow(1.5))
+                var c = n(2).pow(x.pow(1.5)).floor()
 
                 return c
  },
@@ -79,8 +79,8 @@ buyables: {
                 return "诡异层"
             },
             effect(x = getBuyableAmount(this.layer, this.id)) {
-
-                 let eff = x;
+let pow=n(2)
+                 let eff = n(pow).pow(x);
 
                 return eff
             },
@@ -91,10 +91,34 @@ buyables: {
 milestones: {
     1: {
         requirementDescription: "1障碍灵魂和诡异",
-        effectDescription: "自动购买增强子，且它的效果x1.25",
+        effectDescription: "自动购买增强子，且它的效果x1.25,每个自动都会在重置时保留1个",
         done() { return player.hq.points.gte(1) }
     },
-
+  2: {
+        requirementDescription: "2障碍灵魂和诡异",
+        effectDescription: "自动获得时间胶囊和空间能量，且修改它的价格公式",
+        done() { return player.hq.points.gte(2) }
+    },
+3: {
+        requirementDescription: "3障碍灵魂和诡异",
+        effectDescription: "降低增强需求",
+        done() { return player.hq.points.gte(3) }
+    },
+4: {
+        requirementDescription: "5障碍灵魂和诡异",
+        effectDescription: "自动获得额外时间胶囊，且修改它的价格公式",
+        done() { return player.hq.points.gte(5) }
+    },
+5: {
+        requirementDescription: "3诡异层",
+        effectDescription: "重置时保留bg里程碑",
+        done() { return getBuyableAmount(this.layer, 11).gte(3)}
+    },
+6: {
+        requirementDescription: "10障碍灵魂和诡异",
+        effectDescription: "咕咕咕",
+        done() { return player.hq.points.gte(10) }
+    },
 },
     layerShown() { return player.hq.points.gte(1)||hasUpgrade("tes",55)||getBuyableAmount(this.layer, 11).gte(1)},
     row: 4, // Row the layer is in on the tree (0 is the first row)  QwQ:1也可以当第一排
@@ -110,7 +134,7 @@ tabFormat: {
                     
                 ],
     ["display-text",function () {
-                   return getBuyableAmount("hq", 11).gte(1) ? `你有${format(player.hq.q)}诡异能量(+${format(layers.hq.qgain())}/s),使点数和gp获取x${format(layers.hq.qeff())}`:""},
+                   return getBuyableAmount("hq", 11).gte(1) ? `你有${format(player.hq.q)}诡异能量(+${format(layers.hq.qgain())}/s),使点数和生成器能量获取x${format(layers.hq.qeff())}`:""},
                     
                 ],
                 "buyables",
@@ -128,7 +152,7 @@ tabFormat: {
                     
                 ],
     ["display-text",function () {
-                   return getBuyableAmount("hq", 11).gte(1) ? `你有${format(player.hq.q)}诡异能量(+${format(layers.hq.qgain())}/s),使点数和gp获取x${format(layers.hq.qeff())}`:""},
+                   return getBuyableAmount("hq", 11).gte(1) ? `你有${format(player.hq.q)}诡异能量(+${format(layers.hq.qgain())}/s),使点数和生成器能量获取x${format(layers.hq.qeff())}`:""},
                     
                 ],
                 "milestones",

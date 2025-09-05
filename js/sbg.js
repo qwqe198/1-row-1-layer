@@ -19,7 +19,7 @@ g:new ExpantaNum(0),
 
         return 0
     },
-    effectDescription() { return `增幅器底数x${format(this.beff())}<br>你有${format(player.sbg.g)}sgp(+${format(layers.sbg.ggain())}/s),生成器底数x${format(this.geff())}.` },
+    effectDescription() { return `增幅器底数x${format(this.beff())}<br>你有${format(player.sbg.g)}超级生成器能量(+${format(layers.sbg.ggain())}/s),生成器底数x${format(this.geff())}.` },
     beff() {
 let pow=n(1.5)
 
@@ -81,7 +81,7 @@ milestones: {
     },
 3: {
         requirementDescription: "3超级增幅器和生成器",
-        effectDescription: "每秒自动获得100%增强点,sgp效果基于超级增幅器和生成器增强",
+        effectDescription: "每秒自动获得100%增强点,超级生成器能量效果基于超级增幅器和生成器增强",
         done() { return player.sbg.points.gte(3) }
     },
 4: {

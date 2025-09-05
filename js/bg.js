@@ -19,7 +19,7 @@ g:new ExpantaNum(0),
 
         return 0
     },
-    effectDescription() { return `点数获取x${format(this.beff())}<br>你有${format(player.bg.g)}gp(+${format(layers.bg.ggain())}/s),点数获取x${format(this.geff())}.` },
+    effectDescription() { return `点数获取x${format(this.beff())}<br>你有${format(player.bg.g)}生成器能量(+${format(layers.bg.ggain())}/s),点数获取x${format(this.geff())}.` },
     beff() {
 let pow=n(2)
 pow=pow.add(buyableEffect("tes", 11))
@@ -30,7 +30,7 @@ pow=pow.mul(layers.sbg.beff())
 if(hasUpgrade("tes",32))pow=pow.pow(upgradeEffect("tes",32))
 pow=pow.mul(buyableEffect("tes",23))
         let eff = n(pow).pow(player.bg.points)
-if(eff.gte(1e100))eff=eff.pow(0.2).mul(1e80)
+if(eff.gte(1e100))eff=eff.root(5).mul(1e80)
         return eff
     },
 ggain() {
@@ -184,7 +184,7 @@ milestones: {
 
         },
 21: {
-            description: "gp获取^2",
+            description: "生成器能量获取^2",
             cost() { return new ExpantaNum(8) },
 
             unlocked() { return hasUpgrade("bg",15) },
@@ -198,14 +198,14 @@ milestones: {
 
         },
 23: {
-            description: "gp加成gp获取",
+            description: "生成器能量加成生成器能量获取",
             cost() { return new ExpantaNum(1e14) },
  effect() {
                 let b = player.bg.g.plus(1).log10().plus(1)
                 
                 return b;
             },
- currencyDisplayName: "gp",
+ currencyDisplayName: "生成器能量",
             currencyInternalName: "g",
             currencyLayer: "bg",
             effectDisplay() { return format(this.effect()) + "倍"  },
@@ -213,10 +213,10 @@ milestones: {
 
         },
 24: {
-            description: "gp效果^1.2",
+            description: "生成器能量效果^1.2",
             cost() { return new ExpantaNum(1e17) },
  
- currencyDisplayName: "gp",
+ currencyDisplayName: "生成器能量",
             currencyInternalName: "g",
             currencyLayer: "bg",
 
@@ -224,11 +224,11 @@ milestones: {
 
         },
  25: {
-            description: "修改gp效果公式lgx^(lgx^0.4)<br />>lgx^(lgx^0.425)",
+            description: "修改生成器能量效果公式lgx^(lgx^0.4)<br />>lgx^(lgx^0.425)",
             cost() { return new ExpantaNum("1e375") },
 
             unlocked() { return hasUpgrade("bg",24) },
- currencyDisplayName: "gp",
+ currencyDisplayName: "生成器能量",
             currencyInternalName: "g",
             currencyLayer: "bg",
         },
@@ -252,7 +252,7 @@ milestones: {
 
         },
 32: {
-            description: "gp获取^1.28",
+            description: "生成器能量获取^1.28",
             cost() { return new ExpantaNum(175) },
 
             unlocked() { return hasUpgrade("bg",31) },
@@ -268,7 +268,7 @@ milestones: {
             effectDisplay() { return "x"+format(this.effect())  },
             cost() { return new ExpantaNum("1e3300") },
             unlocked() { return hasUpgrade("bg",24) },
- currencyDisplayName: "gp",
+ currencyDisplayName: "生成器能量",
             currencyInternalName: "g",
             currencyLayer: "bg",
         },
@@ -278,7 +278,7 @@ milestones: {
             let kept = ["unlocked", "auto"]
            
                 
-              if (hasMilestone("tes",4)) kept.push("milestones")
+              if (hasMilestone("tes",4)||hasMilestone("hq",5)) kept.push("milestones")
             layerDataReset(this.layer, kept)
         }
 

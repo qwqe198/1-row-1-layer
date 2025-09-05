@@ -138,7 +138,7 @@ if(hasUpgrade("p",33))eff=eff.pow(upgradeEffect("p",33))
 			
 			},
 52: {
-				description: "修改gp效果公式lgx^2>lgx^(lgx^0.375)",
+				description: "修改生成器能量效果公式lgx^2>lgx^(lgx^0.375)",
 				cost() { return new ExpantaNum(1e9) },
 				unlocked() { return hasUpgrade("p",51) },
 				
