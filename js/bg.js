@@ -54,21 +54,23 @@ eff=eff.mul(layers.hq.qeff())
 if(hasUpgrade("bg",21))eff=eff.pow(2)
 if(hasUpgrade("bg",32))eff=eff.pow(1.28)
 if(hasUpgrade("tes",54))eff=eff.pow(1.0675)
+if(hasMilestone("hq",9))eff=eff.mul(challengeEffect("hq", 11))
 if(player.bg.points.lt(1))eff=n(0)
         return eff
     },
 geff() {
 let pow=n(2)
-if(hasUpgrade("p",52))pow=player.bg.g.plus(1).log10().pow(hasUpgrade("bg",25)?0.425:hasUpgrade("tes",12)?0.4:0.375).plus(2)
+if(hasUpgrade("p",52)&&!inChallenge("hq",11))pow=player.bg.g.plus(1).log10().pow(hasUpgrade("bg",25)?0.425:hasUpgrade("tes",12)?0.4:0.375).plus(2)
         let eff = player.bg.g.plus(1).log10().plus(1).pow(pow)
 if(hasUpgrade("bg",24))eff=eff.pow(1.2)
 if(hasUpgrade("tes",23))eff=eff.pow(upgradeEffect("tes",23))
+if(hasMilestone("hq",6))eff=eff.pow(player.bg.points.add(1).log10().mul(0.1).add(1))
         return eff
     },
     exponent(){
 let req=n(1.25)
-if(hasUpgrade("p",51))req=req.sub(0.04)
-if(hasUpgrade("p",53))req=req.sub(0.01)
+if(hasUpgrade("p",51)&&!inChallenge("hq",11))req=req.sub(0.04)
+if(hasUpgrade("p",53)&&!inChallenge("hq",11))req=req.sub(0.01)
 return req
 } ,
  base: 5,

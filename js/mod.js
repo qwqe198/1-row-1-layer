@@ -55,7 +55,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-function () { return `作者 22222 残局10障碍灵魂和诡异` },
+function () { return `作者 22222 残局5诡异层` },
 
 
 ]

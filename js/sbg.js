@@ -31,7 +31,7 @@ ggain() {
 let pow=n(1.5)
 
         let eff = n(pow).pow(player.sbg.points)
-
+if(hasMilestone("hq",9))eff=eff.mul(challengeEffect("hq", 11).plus(10).log10())
 if(player.sbg.points.lt(1))eff=n(0)
         return eff
     },
@@ -89,8 +89,9 @@ milestones: {
         effectDescription: "p升级33效果基于超级增幅器和生成器增强",
         done() { return player.sbg.points.gte(4) }
     },
+
 },
-     
+     autoPrestige() { return hasMilestone("hq",7) },
  
 
 hotkeys: [

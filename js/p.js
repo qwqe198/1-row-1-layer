@@ -26,7 +26,7 @@ addLayer("p", { //这是代码中的节点代码 例如player.p可以调用该�
     baseResource: "点数",//基础资源名称
     gainMult() { // 资源获取数量倍率
         mult = new ExpantaNum(1)
-if(hasUpgrade("p",21))mult=mult.mul(1.8)
+if(hasUpgrade("p",21)&&!inChallenge("hq",11))mult=mult.mul(1.8)
 if(hasUpgrade("bg",11))mult=mult.mul(upgradeEffect("bg",11))
 if(hasUpgrade("bg",12))mult=mult.mul(upgradeEffect("bg",12))
 if(hasUpgrade("bg",33))mult=mult.mul(upgradeEffect("bg",33))
@@ -35,7 +35,7 @@ if(hasUpgrade("tes",13))mult=mult.mul(upgradeEffect("tes",13))
 mult=mult.mul(n(1.8).pow(buyableEffect("tes", 11).mul(2).pow(1.3)))
 mult=mult.mul(layers.tes.teeff())
 mult=mult.mul(buyableEffect("tes",22))
-if(hasUpgrade("p",31))mult=mult.pow(1.05)
+if(hasUpgrade("p",31)&&!inChallenge("hq",11))mult=mult.pow(1.05)
         return mult
     },
     gainExp() { // 资源获取指数加成(与exponent相乘)
@@ -60,6 +60,7 @@ if(hasUpgrade("p",31))mult=mult.pow(1.05)
  effect() {
                 let b = player.p.points.plus(2).pow(0.5)
                 if(b.gte("1e1000"))b=b.log10().pow(1000/3)
+if(inChallenge("hq",11))b=n(1)
                 return b;
             },
             effectDisplay() { return format(this.effect()) + "倍" },
@@ -71,6 +72,7 @@ if(hasUpgrade("p",31))mult=mult.pow(1.05)
  effect() {
                 let b = player.points.plus(1).log10().pow(0.75).plus(1)
                 if(hasUpgrade("p",33))b=b.pow(upgradeEffect("p",33))
+if(inChallenge("hq",11))b=n(1)
                 return b;
             },
             effectDisplay() { return format(this.effect()) + "倍" },
@@ -86,7 +88,7 @@ if(hasUpgrade("p",31))mult=mult.pow(1.05)
 				cost() { return new ExpantaNum(75) },
 				effect() {
 					let eff = n(hasUpgrade("p",32)?1.6:1.4).pow(player.p.upgrades.length);
-					
+					if(inChallenge("hq",11))eff=n(1)
 					return eff;
 				},
 				unlocked() { return hasUpgrade("p",21) },
@@ -100,6 +102,7 @@ if(hasUpgrade("p",31))mult=mult.pow(1.05)
 					let eff = player.points.plus(1).log10().pow(0.5).plus(1)
 					if(hasUpgrade("bg",22))eff=eff.pow(1.5)
 if(hasUpgrade("p",33))eff=eff.pow(upgradeEffect("p",33))
+if(inChallenge("hq",11))eff=n(1)
 					return eff;
 				},
 				unlocked() { return hasUpgrade("p",22) },
@@ -123,6 +126,7 @@ if(hasUpgrade("p",33))eff=eff.pow(upgradeEffect("p",33))
  effect() {
                 let b = player.p.points.plus(1).log10().pow(0.1).plus(1)
                 if (hasMilestone("sbg",4))b=b.mul(player.sbg.points.plus(1))
+if(inChallenge("hq",11))b=n(1)
                 return b;
             },
             effectDisplay() { return "^"+format(this.effect())  },
