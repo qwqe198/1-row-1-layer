@@ -53,7 +53,7 @@ let pow=n(2)
     gainMult() { // 资源获取数量倍率
         mult = new ExpantaNum(1)
 if(hasMilestone("sbg",5))mult=mult.mul(player.sbg.points.plus(1))
-
+if(hasUpgrade("hq",13))mult=mult.mul(upgradeEffect("hq",13))
        return mult
     },
     gainExp() { // 资源获取指数加成(与exponent相乘)
@@ -107,6 +107,18 @@ if(hasMilestone("hq",13)) pow=x.plus(2)
             cost() { return n(5000) },
  effect() {
                 let b = player.hq.points.add(10).log10().add(10).log10()
+               
+                return b;
+            },
+            effectDisplay() { return format(this.effect()) + "倍" },
+            unlocked() { return true },
+
+        },
+  13: {
+            description: "障碍灵魂和诡异加成自身获取",
+            cost() { return n(5e8) },
+ effect() {
+                let b = player.hq.points.add(10).log10()
                
                 return b;
             },
@@ -216,6 +228,16 @@ milestones: {
         effectDescription: "bg升级33对点数生效",
         done() { return challengeEffect("hq", 11).gte(1e152) }
     },
+21: {
+        requirementDescription: "10诡异层",
+        effectDescription: "解锁第2个障碍",
+        done() { return getBuyableAmount(this.layer, 11).gte(10)}
+    },
+22: {
+        requirementDescription: "在速度之翼中获得1.798e308点数",
+        effectDescription: "超级增幅器和生成器底数+0.25",
+        done() { return challengeEffect("hq", 12).gte("1.798e308") }
+    },
 },
 challenges: {
 11: {
@@ -240,6 +262,31 @@ return re
 
             onExit() {
                 player.hq.challenges[11] = player.points.max(challengeEffect("hq", 11)).max(0)
+            },
+            rewardDisplay(){return `最高点数:${format(this.rewardEffect())}`}
+        },
+12: {
+            name: "速度之翼",
+            challengeDescription: "增幅器和生成器底数被极大消减",
+            unlocked() { return hasMilestone("hq",21) },
+            rewardDescription(){
+               
+                return ""
+            },
+            canComplete: false,
+            completionLimit: Infinity,
+            goal: Infinity,
+            goalDescription(){return "更多点数"},
+                       rewardEffect() {
+let re=n(0)
+  if(inChallenge("hq",12)) re=re.max(player.points).max(challengeEffect("hq", 12))
+ if(!inChallenge("hq",12))re=re.max(player.hq.challenges[12])
+return re
+            },
+           
+unlock(){return },
+            onExit() {
+                player.hq.challenges[12] = player.points.max(challengeEffect("hq", 12)).max(0)
             },
             rewardDisplay(){return `最高点数:${format(this.rewardEffect())}`}
         },
