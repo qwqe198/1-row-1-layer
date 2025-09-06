@@ -9,7 +9,7 @@ g:new ExpantaNum(0),
         }
     },
       
-    requires() { return new ExpantaNum("100") },
+    requires() { return new ExpantaNum(hasMilestone("hq", 13)?"97":"100") },
     color: "#3300ffff",
     resource: "超级增幅器和生成器", // 重置获得的资源名称
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -89,7 +89,11 @@ milestones: {
         effectDescription: "p升级33效果基于超级增幅器和生成器增强",
         done() { return player.sbg.points.gte(4) }
     },
-
+5: {
+        requirementDescription: "5超级增幅器和生成器",
+        effectDescription: "超级增幅器和生成器加成障碍灵魂和诡异获取",
+        done() { return player.sbg.points.gte(5) }
+    },
 },
      autoPrestige() { return hasMilestone("hq",7) },
  

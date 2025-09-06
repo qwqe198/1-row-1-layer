@@ -28,7 +28,7 @@ te: new ExpantaNum(0),
     gainMult() { // 资源获取数量倍率
         mult = new ExpantaNum(1)
 if(hasUpgrade("tes",34))mult=mult.mul(upgradeEffect("tes",34))
-
+if(hasMilestone("hq",10))mult=mult.mul(player.hq.points.plus(1))
        return mult
     },
     gainExp() { // 资源获取指数加成(与exponent相乘)
@@ -576,6 +576,8 @@ player.tes.ts=player.tes.ts.max(getBuyableAmount(this.layer, 12))
 if(hasMilestone("hq", 1))setBuyableAmount(this.layer, 11, player.tes.points.add(1).log10().div(0.3010299956639812).root(1.5).floor().add(1).max(getBuyableAmount("tes", 11)))
 if(hasMilestone("hq", 2))setBuyableAmount(this.layer, 12, player.tes.points.add(1).log10().root(1.875).floor().add(1).max(getBuyableAmount("tes", 12)))
 if(hasMilestone("hq", 4))setBuyableAmount(this.layer, 13, player.bg.points.sub(180).root(2).max(0).floor().add(1).max(getBuyableAmount("tes", 13)))
+if(hasMilestone("hq", 10))setBuyableAmount(this.layer, 21, player.bg.g.max(1).log10().div(50).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 21)))
+if(hasMilestone("hq", 12))setBuyableAmount(this.layer, 22, player.bg.g.max(1).log10().div(70).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 22)))
     },
   hotkeys: [
         { key: "t", description: "t: 进行增强点数,时间胶囊和空间能量重置", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
