@@ -69,7 +69,7 @@ buyables: {
 
                 return c
  },
-            display() { return `诡异能量基础获取<br />为${format(buyableEffect(this.layer, this.id))}.花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}诡异(不消耗)<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
+            display() { return `基础诡异能量获取<br />为${format(buyableEffect(this.layer, this.id))}.花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}诡异(不消耗)<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
             canAfford() { return player.hq.points.gte(this.cost()) },
             buy() {
                 
@@ -94,7 +94,7 @@ if(hasMilestone("hq",13)) pow=x.plus(2)
             description: "诡异和购买升级数量加成诡异能量获取",
             cost() { return n(1000) },
  effect() {
-                let b = player.hq.points.add(1).pow(player.hq.upgrades.length)
+                let b = player.hq.points.add(1).pow(player.hq.upgrades.length**0.5)
                
                 return b;
             },
@@ -102,7 +102,18 @@ if(hasMilestone("hq",13)) pow=x.plus(2)
             unlocked() { return true },
 
         },
-     
+      12: {
+            description: "诡异加成生成器和增幅器底数",
+            cost() { return n(5000) },
+ effect() {
+                let b = player.hq.points.add(10).log10().add(10).log10()
+               
+                return b;
+            },
+            effectDisplay() { return format(this.effect()) + "倍" },
+            unlocked() { return true },
+
+        },
     },
 milestones: {
     1: {
@@ -174,6 +185,16 @@ milestones: {
         requirementDescription: "在升级荒漠中获得1e60点数",
         effectDescription: "降低超级增幅器和生成器价格",
         done() { return challengeEffect("hq", 11).gte(1e60) }
+    },
+15: {
+        requirementDescription: "7诡异层",
+        effectDescription: "自动购买第三个空间建筑",
+        done() { return getBuyableAmount(this.layer, 11).gte(7)}
+    },
+16: {
+        requirementDescription: "在升级荒漠中获得1e107点数",
+        effectDescription: "解锁空间力量,它加成空间建筑效果,基于空间能量获得加成",
+        done() { return challengeEffect("hq", 11).gte(1e107) }
     },
 },
 challenges: {

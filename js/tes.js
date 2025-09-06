@@ -45,6 +45,11 @@ gain=gain.mul(layers.hq.heff())
 if(getBuyableAmount(this.layer, 12).lt(1))gain=n(0)
         return gain
     },
+  ll() { 
+var ll=n(1)
+if(hasMilestone("hq",16))ll=ll.add(player.tes.ts.mul(0.01))
+        return ll
+    },
 teeff() { 
 var pow=n(1.5)
 let eff = player.tes.te.plus(1).log10().plus(1).pow(pow)
@@ -182,7 +187,7 @@ if(hasUpgrade("tes",53))x=x.mul(buyableEffect("tes",23));
 if(hasUpgrade("tes",24))x=x.pow(1.5);
 if(hasUpgrade("tes",31))x=x.pow(1.5);
                  let eff = x.add(1).pow(player.tes.ts);
-
+if(hasMilestone("hq",16))eff=eff.pow(layers.tes.ll())
                 return eff
             },
             unlocked() { return getBuyableAmount("tes", 12).gte(1) },
@@ -208,7 +213,7 @@ if(hasUpgrade("tes",53))x=x.mul(buyableEffect("tes",23));
 if(hasUpgrade("tes",24))x=x.pow(1.5);
 if(hasUpgrade("tes",31))x=x.pow(1.5);
                  let eff = x.add(1).pow(player.tes.ts);
-
+if(hasMilestone("hq",16))eff=eff.pow(layers.tes.ll())
                 return eff
             },
             unlocked() { return hasMilestone("tes", 3) },
@@ -232,7 +237,7 @@ if(hasUpgrade("tes",31))x=x.pow(1.5);
             effect(x = getBuyableAmount(this.layer, this.id)) {
 
                  let eff = x.mul(player.tes.ts.mul(0.01)).add(1);
-
+if(hasMilestone("hq",16))eff=eff.mul(layers.tes.ll())
                 return eff
             },
             unlocked() { return hasUpgrade("tes",44) },
@@ -348,7 +353,7 @@ upgrades: {
         },
 32: {
           
-            description: "时间胶囊增加增幅器底数",
+            description: "时间胶囊增加增幅器底数(在空间建筑3前)",
             cost() { return n(1e8) },
             unlocked() { return hasUpgrade("tes", 31) },
  effect() {
@@ -357,7 +362,7 @@ upgrades: {
                 return b;
             },
  
-            effectDisplay() { return format(this.effect()) + "倍"  },
+            effectDisplay() { return "^"+format(this.effect()) },
 	currencyDisplayName: "时间能量",
             currencyInternalName: "te",
             currencyLayer: "tes",
@@ -512,6 +517,10 @@ tabFormat: {
                    return getBuyableAmount("tes", 12).gte(1) ? `你有${format(player.tes.te)}时间能量(+${format(layers.tes.tegain())}/s),使点数和声望获取x${format(layers.tes.teeff())}`:""},
                     
                 ],
+["display-text",function () {
+                   return hasMilestone("hq", 16) ? `你有${format(layers.tes.ll().mul(100))+"%"}空间力量`:""},
+                    
+                ],
                 "upgrades",
 
             ],
@@ -530,6 +539,10 @@ tabFormat: {
                    return getBuyableAmount("tes", 12).gte(1) ? `你有${format(player.tes.te)}时间能量(+${format(layers.tes.tegain())}/s),使点数和声望获取x${format(layers.tes.teeff())}`:""},
                     
                 ],
+["display-text",function () {
+                   return hasMilestone("hq", 16) ? `你有${format(layers.tes.ll().mul(100))+"%"}空间力量`:""},
+                    
+                ],
                 "buyables",
 
             ],
@@ -546,6 +559,10 @@ tabFormat: {
                 ],
  ["display-text",function () {
                    return getBuyableAmount("tes", 12).gte(1) ? `你有${format(player.tes.te)}时间能量(+${format(layers.tes.tegain())}/s),使点数和声望获取x${format(layers.tes.teeff())}`:""},
+                    
+                ],
+["display-text",function () {
+                   return hasMilestone("hq", 16) ? `你有${format(layers.tes.ll().mul(100))+"%"}空间力量`:""},
                     
                 ],
                 "milestones",
@@ -578,6 +595,7 @@ if(hasMilestone("hq", 2))setBuyableAmount(this.layer, 12, player.tes.points.add(
 if(hasMilestone("hq", 4))setBuyableAmount(this.layer, 13, player.bg.points.sub(180).root(2).max(0).floor().add(1).max(getBuyableAmount("tes", 13)))
 if(hasMilestone("hq", 10))setBuyableAmount(this.layer, 21, player.bg.g.max(1).log10().div(50).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 21)))
 if(hasMilestone("hq", 12))setBuyableAmount(this.layer, 22, player.bg.g.max(1).log10().div(70).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 22)))
+if(hasMilestone("hq", 15))setBuyableAmount(this.layer, 23, player.bg.g.max(1).log10().div(3550).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 23)))
     },
   hotkeys: [
         { key: "t", description: "t: 进行增强点数,时间胶囊和空间能量重置", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
