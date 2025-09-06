@@ -73,6 +73,7 @@ if(hasMilestone("hq",6))eff=eff.pow(player.bg.points.add(1).log10().mul(0.1).add
 let req=n(1.25)
 if(hasUpgrade("p",51)&&!inChallenge("hq",11))req=req.sub(0.04)
 if(hasUpgrade("p",53)&&!inChallenge("hq",11))req=req.sub(0.01)
+req=req.root(buyableEffect("tes",24))
 return req
 } ,
  base: 5,

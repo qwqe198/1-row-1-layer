@@ -29,6 +29,7 @@ te: new ExpantaNum(0),
         mult = new ExpantaNum(1)
 if(hasUpgrade("tes",34))mult=mult.mul(upgradeEffect("tes",34))
 if(hasMilestone("hq",10))mult=mult.mul(player.hq.points.plus(1))
+if(hasMilestone("hq",17))mult=mult.mul(challengeEffect("hq", 11).plus(10).log10())
        return mult
     },
     gainExp() { // 资源获取指数加成(与exponent相乘)
@@ -117,6 +118,7 @@ if(hasUpgrade("tes",14))x=x.add(1);
 if(hasUpgrade("tes",21))x=x.add(2);
 if(hasUpgrade("tes",33))x=x.add(upgradeEffect("tes",33));
 if(hasUpgrade("tes",51))x=x.add(upgradeEffect("tes",51));
+if(hasMilestone("hq",19))x=x.add(getBuyableAmount("hq", 11))
                  let eff = x.mul(hasMilestone("hq", 1)?1:0.8);
 
                 return eff
@@ -241,6 +243,30 @@ if(hasMilestone("hq",16))eff=eff.mul(layers.tes.ll())
                 return eff
             },
             unlocked() { return hasUpgrade("tes",44) },
+ style: {'height':'120px','width':'120px'},
+        },
+24: {
+            cost(x = getBuyableAmount(this.layer, this.id)) {
+                var c = n("1e14500").pow(n(1.1).pow(x))
+
+                return c
+ },
+            display() { return `<br />增幅器和生成器价格增长开${format(buyableEffect(this.layer, this.id))}次根.花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}生成器能量<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
+            canAfford() { return player.bg.g.gte(this.cost()) },
+            buy() {
+                player.bg.g = player.bg.g.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            title() {
+                return "空间建筑4"
+            },
+            effect(x = getBuyableAmount(this.layer, this.id)) {
+
+                 let eff = n(1.01).pow(x);
+if(hasMilestone("hq",16))eff=eff.pow(layers.tes.ll())
+                return eff
+            },
+            unlocked() { return hasMilestone("hq", 18) },
  style: {'height':'120px','width':'120px'},
         },
     },

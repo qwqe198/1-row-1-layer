@@ -196,6 +196,26 @@ milestones: {
         effectDescription: "解锁空间力量,它加成空间建筑效果,基于空间能量获得加成",
         done() { return challengeEffect("hq", 11).gte(1e107) }
     },
+17: {
+        requirementDescription: "8诡异层",
+        effectDescription: "第一个障碍最高点数的对数加成增强获取",
+        done() { return getBuyableAmount(this.layer, 11).gte(8)}
+    },
+18: {
+        requirementDescription: "1e6障碍灵魂和诡异",
+        effectDescription: "解锁第4空间建筑",
+        done() { return player.hq.points.gte(1e6)}
+    },
+19: {
+        requirementDescription: "9诡异层",
+        effectDescription: "诡异层免费赠送增强子等级",
+        done() { return getBuyableAmount(this.layer, 11).gte(9)}
+    },
+20: {
+        requirementDescription: "在升级荒漠中获得1e152点数",
+        effectDescription: "bg升级33对点数生效",
+        done() { return challengeEffect("hq", 11).gte(1e152) }
+    },
 },
 challenges: {
 11: {
