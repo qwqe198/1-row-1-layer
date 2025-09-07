@@ -43,7 +43,8 @@ if(hasMilestone("sbg",1))var pow=n(player.tes.ts).plus(2)
 pow=pow.add(getBuyableAmount(this.layer, 13))
         var gain = n(pow).pow(getBuyableAmount(this.layer, 12).add(getBuyableAmount(this.layer, 13)))
 gain=gain.mul(layers.hq.heff())
-if(hasMilestone("hq",37))mult=mult.mul(challengeEffect("hq", 11).plus(10).log10())
+if(hasMilestone("hq",37))gain=gain.mul(challengeEffect("hq", 11).plus(10).log10())
+gain=gain.mul(layers.oss.seeff2())
 if(getBuyableAmount(this.layer, 12).lt(1))gain=n(0)
         return gain
     },
@@ -51,6 +52,7 @@ if(getBuyableAmount(this.layer, 12).lt(1))gain=n(0)
 var ll=n(1)
 if(hasMilestone("hq",16))ll=ll.add(player.tes.ts.mul(0.01))
 if(hasMilestone("hq",28))ll=ll.add(challengeEffect("hq", 21).div("1e3000").max(1).log10().div(100).root(2).mul(0.01))
+ll=ll.mul(layers.oss.sseff1())
 if(inChallenge("hq",21))ll=n(0)
         return ll
     },
@@ -178,7 +180,7 @@ if(hasMilestone("hq", 4))c=n(180).add(x.pow(2))
  21: {
             cost(x = getBuyableAmount(this.layer, this.id)) {
                 var c = n(hasMilestone("hq",31)?10:1e50).pow(n(1.05).pow(x))
-
+c=c.div(layers.oss.sseff2())
                 return c
  },
             display() { return `点数获取<br />x${format(buyableEffect(this.layer, this.id))}(基于空间能量提升).花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}生成器能量<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
@@ -205,7 +207,7 @@ if(hasMilestone("hq",16))eff=eff.pow(layers.tes.ll())
 22: {
             cost(x = getBuyableAmount(this.layer, this.id)) {
                 var c = n(hasMilestone("hq",31)?10:1e70).pow(n(1.05).pow(x))
-
+c=c.div(layers.oss.sseff2())
                 return c
  },
             display() { return `声望获取<br />x${format(buyableEffect(this.layer, this.id))}(基于空间能量提升).花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}生成器能量<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
@@ -233,6 +235,7 @@ if(hasMilestone("hq",16))eff=eff.pow(layers.tes.ll())
             cost(x = getBuyableAmount(this.layer, this.id)) {
                 var c = n("1e3550").pow(n(1.05).pow(x))
 if(hasMilestone("hq",39))c=c.div(challengeEffect("hq", 21))
+c=c.div(layers.oss.sseff2())
                 return c
  },
             display() { return `增幅器和生成器效果底数<br />x${format(buyableEffect(this.layer, this.id))}(基于空间能量提升).花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}生成器能量<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
@@ -257,7 +260,7 @@ eff=eff.max(1)
 24: {
             cost(x = getBuyableAmount(this.layer, this.id)) {
                 var c = n("1e14500").pow(n(1.1).pow(x))
-
+c=c.div(layers.oss.sseff2())
                 return c
  },
             display() { return `<br />增幅器和生成器价格增长开${format(buyableEffect(this.layer, this.id))}次根.花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}生成器能量<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
@@ -628,9 +631,10 @@ player.tes.ts=player.tes.ts.max(getBuyableAmount(this.layer, 12))
 if(hasMilestone("hq", 1))setBuyableAmount(this.layer, 11, player.tes.points.add(1).log10().div(0.3010299956639812).root(1.5).floor().add(1).max(getBuyableAmount("tes", 11)))
 if(hasMilestone("hq", 2))setBuyableAmount(this.layer, 12, player.tes.points.add(1).log10().root(1.875).floor().add(1).max(getBuyableAmount("tes", 12)))
 if(hasMilestone("hq", 4))setBuyableAmount(this.layer, 13, player.bg.points.sub(180).root(2).max(0).floor().add(1).max(getBuyableAmount("tes", 13)))
-if(hasMilestone("hq", 10))setBuyableAmount(this.layer, 21, player.bg.g.max(1).log10().div(hasMilestone("hq",31)?1:50).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 21)))
-if(hasMilestone("hq", 12))setBuyableAmount(this.layer, 22, player.bg.g.max(1).log10().div(hasMilestone("hq",31)?1:70).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 22)))
-if(hasMilestone("hq", 15))setBuyableAmount(this.layer, 23, player.bg.g.max(1).mul(hasMilestone("hq",39)?challengeEffect("hq", 21):1).log10().div(3550).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 23)))
+if(hasMilestone("hq", 10))setBuyableAmount(this.layer, 21, player.bg.g.max(1).mul(layers.oss.sseff2()).log10().div(hasMilestone("hq",31)?1:50).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 21)))
+if(hasMilestone("hq", 12))setBuyableAmount(this.layer, 22, player.bg.g.max(1).mul(layers.oss.sseff2()).log10().div(hasMilestone("hq",31)?1:70).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 22)))
+if(hasMilestone("hq", 15))setBuyableAmount(this.layer, 23, player.bg.g.max(1).mul(layers.oss.sseff2()).mul(hasMilestone("hq",39)?challengeEffect("hq", 21):1).log10().div(3550).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 23)))
+if(hasMilestone("oss", 1))setBuyableAmount(this.layer, 24, player.bg.g.max(1).mul(layers.oss.sseff2()).log10().div(14500).max(1).log10().div(0.04139268515822507).max(0).floor().add(1).max(getBuyableAmount("tes", 24)))
     },
   hotkeys: [
         { key: "t", description: "t: 进行增强点数,时间胶囊和空间能量重置", onPress() { if (canReset(this.layer)) doReset(this.layer) } },

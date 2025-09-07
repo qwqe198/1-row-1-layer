@@ -377,9 +377,9 @@ milestones: {
         done() { return getBuyableAmount(this.layer, 11).gte(20)}
     },
 41: {
-        requirementDescription: "在弱化中获得1e227点数",
-        effectDescription: "咕咕咕",
-        done() { return challengeEffect("hq", 21).gte("1e227") }
+        requirementDescription: "在弱化中获得1e248点数",
+        effectDescription: "解锁新层级",
+        done() { return challengeEffect("hq", 22).gte("1e248") }
     },
 },
 challenges: {
@@ -567,5 +567,15 @@ tabFormat: {
     ],
  update(diff) {
     player.hq.q=player.hq.q.add(layers.hq.qgain().mul(diff))
+    },
+ doReset(resettingLayer) {
+        if (layers[resettingLayer].row > layers[this.layer].row) {
+            let kept = ["unlocked", "auto"]
+           
+                
+               kept.push("challenges")
+            layerDataReset(this.layer, kept)
+        }
+
     },
 })
