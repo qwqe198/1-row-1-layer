@@ -29,9 +29,10 @@ if(hasMilestone("hq",22))pow=pow.add(0.25)
     },
 ggain() {
 let pow=n(1.5)
-if(hasMilestone("hq",22))pow=pow.add(0.25)
+if(hasMilestone("hq",22))pow=pow.add(hasMilestone("hq",26)?n(0.25).mul(challengeEffect("hq", 12).log10().div(hasMilestone("hq",29)?250:308)):0.25)
         let eff = n(pow).pow(player.sbg.points)
 if(hasMilestone("hq",9))eff=eff.mul(challengeEffect("hq", 11).plus(10).log10())
+if(hasMilestone("hq",30))eff=eff.mul(player.bg.g.plus(10).log10())
 if(player.sbg.points.lt(1))eff=n(0)
         return eff
     },
@@ -93,6 +94,11 @@ milestones: {
         requirementDescription: "5超级增幅器和生成器",
         effectDescription: "超级增幅器和生成器加成障碍灵魂和诡异获取",
         done() { return player.sbg.points.gte(5) }
+    },
+6: {
+        requirementDescription: "6超级增幅器和生成器",
+        effectDescription: "超级增幅器和生成器加成诡异层底数",
+        done() { return player.sbg.points.gte(6) }
     },
 },
      autoPrestige() { return hasMilestone("hq",7) },

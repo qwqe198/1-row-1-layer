@@ -65,7 +65,7 @@ buyables: {
        
         11: {
             cost(x = getBuyableAmount(this.layer, this.id)) {
-                var c = n(2).pow(x.pow(1.5)).floor()
+                var c = n(2).pow(x.pow(hasMilestone("hq",33)?1.49:1.5)).floor()
 
                 return c
  },
@@ -81,6 +81,8 @@ buyables: {
             effect(x = getBuyableAmount(this.layer, this.id)) {
 let pow=n(2)
 if(hasMilestone("hq",13)) pow=x.plus(2)
+if(hasUpgrade("hq",21)) pow=pow.mul(upgradeEffect("hq",21))
+if(hasMilestone("sbg",6)) pow=pow.mul(player.sbg.points.add(1))
                  let eff = n(pow).pow(x);
 
                 return eff
@@ -123,6 +125,37 @@ if(hasMilestone("hq",13)) pow=x.plus(2)
                 return b;
             },
             effectDisplay() { return format(this.effect()) + "倍" },
+            unlocked() { return true },
+
+        },
+ 14: {
+            description: "生成器能量效果^1.1",
+            cost() { return n(1e15) },
+
+            unlocked() { return true },
+
+        },
+21: {
+            description: "超级增幅器加成诡异层生产底数",
+            cost() { return n(5e16) },
+effect() {
+                let b = player.sbg.points.add(1).log10().add(1)
+               
+                return b;
+            },
+            effectDisplay() { return format(this.effect()) + "倍" },
+            unlocked() { return true },
+
+        },
+22: {
+            description: "诡异提供免费的时间胶囊,空间能量,增强子和前3空间建筑",
+            cost() { return n(1e20) },
+effect() {
+                let b = player.hq.points.add(10).log10().pow(0.5)
+               
+                return b;
+            },
+            effectDisplay() { return "+"+format(this.effect())  },
             unlocked() { return true },
 
         },
@@ -238,6 +271,61 @@ milestones: {
         effectDescription: "超级增幅器和生成器底数+0.25",
         done() { return challengeEffect("hq", 12).gte("1.798e308") }
     },
+23: {
+        requirementDescription: "11诡异层",
+        effectDescription: "每个增强子获得2倍点数",
+        done() { return getBuyableAmount(this.layer, 11).gte(11)}
+    },
+24: {
+        requirementDescription: "12诡异层",
+        effectDescription: "每个生成器获得2倍生成器能量",
+        done() { return getBuyableAmount(this.layer, 11).gte(12)}
+    },
+25: {
+        requirementDescription: "在升级荒漠中获得1e268点数",
+        effectDescription: "1e32的第一个奖励在指数前生效",
+        done() { return challengeEffect("hq", 11).gte(1e268) }
+    },
+26: {
+        requirementDescription: "在速度之翼中获得1e843点数",
+        effectDescription: "1e308奖励对超级生成器修改为每1e308就+0.25",
+        done() { return challengeEffect("hq", 12).gte("1e843") }
+    },
+27: {
+        requirementDescription: "15诡异层",
+        effectDescription: "解锁第3个障碍",
+        done() { return getBuyableAmount(this.layer, 11).gte(15)}
+    },
+28: {
+        requirementDescription: "在空间紧缺中获得1e3135点数",
+        effectDescription: "从1e3000开始,该障碍中每1e100最高点数的平方根增加1%空间力量",
+        done() { return challengeEffect("hq", 21).gte("1e3135") }
+    },
+29: {
+        requirementDescription: "在速度之翼中获得1e1000点数",
+        effectDescription: "1e308奖励对超级生成器修改为每1e250就+0.25",
+        done() { return challengeEffect("hq", 12).gte("1e1000") }
+    },
+30: {
+        requirementDescription: "1e24500生成器能量",
+        effectDescription: "生成器能量加成超级生成器能量获取",
+        done() { return player.bg.g.gte("1e24500")}
+    },
+31: {
+        requirementDescription: "16诡异层",
+        effectDescription: "降低前2个空间建筑价格",
+        done() { return getBuyableAmount(this.layer, 11).gte(16)}
+    },
+32: {
+        requirementDescription: "在升级荒漠中获得1e365点数",
+        effectDescription: "tes升级32修改为在空间建筑3后生效",
+        done() { return challengeEffect("hq", 11).gte("1e365") }
+    },
+33: {
+        requirementDescription: "在升级荒漠中获得1e454点数",
+        effectDescription: "降低诡异层价格",
+        done() { return challengeEffect("hq", 11).gte("1e454") }
+    },
 },
 challenges: {
 11: {
@@ -246,7 +334,7 @@ challenges: {
             unlocked() { return true },
             rewardDescription(){
                
-                return ""
+                return "见里程碑"
             },
             canComplete: false,
             completionLimit: Infinity,
@@ -271,7 +359,7 @@ return re
             unlocked() { return hasMilestone("hq",21) },
             rewardDescription(){
                
-                return ""
+                return "见里程碑"
             },
             canComplete: false,
             completionLimit: Infinity,
@@ -287,6 +375,31 @@ return re
 unlock(){return },
             onExit() {
                 player.hq.challenges[12] = player.points.max(challengeEffect("hq", 12)).max(0)
+            },
+            rewardDisplay(){return `最高点数:${format(this.rewardEffect())}`}
+        },
+21: {
+            name: "空间紧缺",
+            challengeDescription: "你的空间力量变为0%",
+            unlocked() { return hasMilestone("hq",27) },
+            rewardDescription(){
+               
+                return "见里程碑"
+            },
+            canComplete: false,
+            completionLimit: Infinity,
+            goal: Infinity,
+            goalDescription(){return "更多点数"},
+                       rewardEffect() {
+let re=n(0)
+  if(inChallenge("hq",21)) re=re.max(player.points).max(challengeEffect("hq", 21))
+ if(!inChallenge("hq",21))re=re.max(player.hq.challenges[21])
+return re
+            },
+           
+unlock(){return },
+            onExit() {
+                player.hq.challenges[21] = player.points.max(challengeEffect("hq", 21)).max(0)
             },
             rewardDisplay(){return `最高点数:${format(this.rewardEffect())}`}
         },

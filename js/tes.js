@@ -49,6 +49,8 @@ if(getBuyableAmount(this.layer, 12).lt(1))gain=n(0)
   ll() { 
 var ll=n(1)
 if(hasMilestone("hq",16))ll=ll.add(player.tes.ts.mul(0.01))
+if(hasMilestone("hq",28))ll=ll.add(challengeEffect("hq", 21).div("1e3000").max(1).log10().div(100).root(2).mul(0.01))
+if(inChallenge("hq",21))ll=n(0)
         return ll
     },
 teeff() { 
@@ -104,7 +106,7 @@ buyables: {
 
                 return c
  },
-            display() { return `声望获取<br />x${format(n(1.8).pow(buyableEffect(this.layer, this.id).mul(2).pow(1.3)))},增幅器和生成器底数+${format(buyableEffect(this.layer, this.id))} .花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}增强子<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
+            display() { return `声望获取<br />x${format(n(1.8).pow(buyableEffect(this.layer, this.id).mul(2).pow(1.3)))},增幅器和生成器底数+${format(buyableEffect(this.layer, this.id))} .花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}增强<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
             canAfford() { return player.tes.points.gte(this.cost()) },
             buy() {
                 player.tes.points = player.tes.points.sub(this.cost())
@@ -119,6 +121,7 @@ if(hasUpgrade("tes",21))x=x.add(2);
 if(hasUpgrade("tes",33))x=x.add(upgradeEffect("tes",33));
 if(hasUpgrade("tes",51))x=x.add(upgradeEffect("tes",51));
 if(hasMilestone("hq",19))x=x.add(getBuyableAmount("hq", 11))
+if(hasUpgrade("hq",22))x=x.add(upgradeEffect("hq",22));
                  let eff = x.mul(hasMilestone("hq", 1)?1:0.8);
 
                 return eff
@@ -141,6 +144,7 @@ if(hasMilestone("hq", 2))c=n(n(10).pow(x.pow(1.875)))
                 return "获得时间胶囊和空间能量"
             },
             effect(x = getBuyableAmount(this.layer, this.id)) {
+if(hasUpgrade("hq",22))x=x.add(upgradeEffect("hq",22));
                  let eff = x;
 
                 return eff
@@ -171,7 +175,7 @@ if(hasMilestone("hq", 4))c=n(180).add(x.pow(2))
         },
  21: {
             cost(x = getBuyableAmount(this.layer, this.id)) {
-                var c = n(1e50).pow(n(1.05).pow(x))
+                var c = n(hasMilestone("hq",31)?10:1e50).pow(n(1.05).pow(x))
 
                 return c
  },
@@ -185,6 +189,7 @@ if(hasMilestone("hq", 4))c=n(180).add(x.pow(2))
                 return "空间建筑1"
             },
             effect(x = getBuyableAmount(this.layer, this.id)) {
+if(hasUpgrade("hq",22))x=x.add(upgradeEffect("hq",22));
 if(hasUpgrade("tes",53))x=x.mul(buyableEffect("tes",23));
 if(hasUpgrade("tes",24))x=x.pow(1.5);
 if(hasUpgrade("tes",31))x=x.pow(1.5);
@@ -197,7 +202,7 @@ if(hasMilestone("hq",16))eff=eff.pow(layers.tes.ll())
         },
 22: {
             cost(x = getBuyableAmount(this.layer, this.id)) {
-                var c = n(1e70).pow(n(1.05).pow(x))
+                var c = n(hasMilestone("hq",31)?10:1e70).pow(n(1.05).pow(x))
 
                 return c
  },
@@ -211,6 +216,7 @@ if(hasMilestone("hq",16))eff=eff.pow(layers.tes.ll())
                 return "空间建筑2"
             },
             effect(x = getBuyableAmount(this.layer, this.id)) {
+if(hasUpgrade("hq",22))x=x.add(upgradeEffect("hq",22));
 if(hasUpgrade("tes",53))x=x.mul(buyableEffect("tes",23));
 if(hasUpgrade("tes",24))x=x.pow(1.5);
 if(hasUpgrade("tes",31))x=x.pow(1.5);
@@ -237,9 +243,10 @@ if(hasMilestone("hq",16))eff=eff.pow(layers.tes.ll())
                 return "空间建筑3"
             },
             effect(x = getBuyableAmount(this.layer, this.id)) {
-
+if(hasUpgrade("hq",22))x=x.add(upgradeEffect("hq",22));
                  let eff = x.mul(player.tes.ts.mul(0.01)).add(1);
 if(hasMilestone("hq",16))eff=eff.mul(layers.tes.ll())
+eff=eff.max(1)
                 return eff
             },
             unlocked() { return hasUpgrade("tes",44) },
@@ -619,8 +626,8 @@ player.tes.ts=player.tes.ts.max(getBuyableAmount(this.layer, 12))
 if(hasMilestone("hq", 1))setBuyableAmount(this.layer, 11, player.tes.points.add(1).log10().div(0.3010299956639812).root(1.5).floor().add(1).max(getBuyableAmount("tes", 11)))
 if(hasMilestone("hq", 2))setBuyableAmount(this.layer, 12, player.tes.points.add(1).log10().root(1.875).floor().add(1).max(getBuyableAmount("tes", 12)))
 if(hasMilestone("hq", 4))setBuyableAmount(this.layer, 13, player.bg.points.sub(180).root(2).max(0).floor().add(1).max(getBuyableAmount("tes", 13)))
-if(hasMilestone("hq", 10))setBuyableAmount(this.layer, 21, player.bg.g.max(1).log10().div(50).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 21)))
-if(hasMilestone("hq", 12))setBuyableAmount(this.layer, 22, player.bg.g.max(1).log10().div(70).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 22)))
+if(hasMilestone("hq", 10))setBuyableAmount(this.layer, 21, player.bg.g.max(1).log10().div(hasMilestone("hq",31)?1:50).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 21)))
+if(hasMilestone("hq", 12))setBuyableAmount(this.layer, 22, player.bg.g.max(1).log10().div(hasMilestone("hq",31)?1:70).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 22)))
 if(hasMilestone("hq", 15))setBuyableAmount(this.layer, 23, player.bg.g.max(1).log10().div(3550).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 23)))
     },
   hotkeys: [

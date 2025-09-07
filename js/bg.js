@@ -28,11 +28,13 @@ if(hasUpgrade("tes",11))pow=pow.add(upgradeEffect("tes",11))
 if(hasUpgrade("bg",16))pow=pow.add(upgradeEffect("bg",16))
 pow=pow.mul(layers.sbg.beff())
 if(hasUpgrade("hq",12))pow=pow.mul(upgradeEffect("hq",12))
-if(hasUpgrade("tes",32))pow=pow.pow(upgradeEffect("tes",32))
+if(hasUpgrade("tes",32)&&!hasMilestone("hq",32))pow=pow.pow(upgradeEffect("tes",32))
 pow=pow.mul(buyableEffect("tes",23))
+if(hasUpgrade("tes",32)&&hasMilestone("hq",32))pow=pow.pow(upgradeEffect("tes",32))
 if(inChallenge("hq",12))pow=pow.max(10).log10()
         let eff = n(pow).pow(player.bg.points)
 if(eff.gte(1e100))eff=eff.root(5).mul(1e80)
+if(eff.gte("1e1500"))eff=eff.root(5).mul("1e1200")
         return eff
     },
 ggain() {
@@ -55,21 +57,24 @@ if(hasUpgrade("tes",42))eff=eff.mul(layers.tes.teeff())
 if(hasUpgrade("tes",43))eff=eff.mul(buyableEffect("tes",21))
 if(hasUpgrade("tes",43))eff=eff.mul(buyableEffect("tes",22))
 eff=eff.mul(layers.hq.qeff())
+if(hasMilestone("hq",24))eff=eff.mul(n(2).pow(player.bg.points))
+if(hasMilestone("hq",9)&&hasMilestone("hq",25))eff=eff.mul(challengeEffect("hq", 11))
 if(hasUpgrade("bg",21))eff=eff.pow(2)
 if(hasUpgrade("bg",32))eff=eff.pow(1.28)
 if(hasUpgrade("tes",54))eff=eff.pow(1.0675)
-if(hasMilestone("hq",9))eff=eff.mul(challengeEffect("hq", 11))
+if(hasMilestone("hq",9)&&!hasMilestone("hq",25))eff=eff.mul(challengeEffect("hq", 11))
 if(player.bg.points.lt(1))eff=n(0)
         return eff
     },
 geff() {
 let pow=n(2)
-if(hasUpgrade("p",52)&&!inChallenge("hq",11))pow=player.bg.g.plus(1).log10().pow(hasUpgrade("bg",25)?0.425:hasUpgrade("tes",12)?0.4:0.375).plus(2)
+if(hasUpgrade("p",52)&&!inChallenge("hq",11))pow=player.bg.g.max(10).log10().pow(hasUpgrade("bg",25)?0.425:hasUpgrade("tes",12)?0.4:0.375).plus(2)
 if(inChallenge("hq",12))pow=pow.max(10).log10()
-        let eff = player.bg.g.plus(1).log10().plus(1).pow(pow)
+        let eff = player.bg.g.max(10).log10().plus(1).pow(pow)
 if(hasUpgrade("bg",24))eff=eff.pow(1.2)
 if(hasUpgrade("tes",23))eff=eff.pow(upgradeEffect("tes",23))
 if(hasMilestone("hq",6))eff=eff.pow(player.bg.points.add(1).log10().mul(0.1).add(1))
+if(hasUpgrade("hq",14))eff=eff.pow(1.1)
         return eff
     },
     exponent(){
