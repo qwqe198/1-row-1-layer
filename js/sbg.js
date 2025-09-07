@@ -104,7 +104,7 @@ milestones: {
 },
      autoPrestige() { return hasMilestone("hq",7) },
  
-
+ resetsNothing() { return hasMilestone("oss",2) },
 hotkeys: [
         { key: "s", description: "s: 进行超级增幅器和生成器重置", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
     ],

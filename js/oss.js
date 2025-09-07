@@ -93,6 +93,7 @@ req=n(21).sub(this.seeff1())
 player.oss.ss =  player.oss.ss.add(this.ssgain().mul(diff))
 
         },
+
 buyables: {
        
         11: {
@@ -127,7 +128,11 @@ milestones: {
         effectDescription: "在所有重置中保留hq挑战,自动购买第4空间建筑(太阳能量效果是在公式中减少扣除,重置需求不低于21)",
         done() { return player.oss.points.gte(1) }
     },
-
+ 2: {
+        requirementDescription: "10阳光",
+        effectDescription: "超级增幅器和生成器不重置任何东西(在21诡异层时需要约1500太阳能量获得9阳光)",
+        done() { return player.oss.points.gte(10) }
+    },
 },
     tabFormat: {
 
