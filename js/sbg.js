@@ -22,22 +22,23 @@ g:new ExpantaNum(0),
     effectDescription() { return `增幅器底数x${format(this.beff())}<br>你有${format(player.sbg.g)}超级生成器能量(+${format(layers.sbg.ggain())}/s),生成器底数x${format(this.geff())}.` },
     beff() {
 let pow=n(1.5)
-if(hasMilestone("hq",22))pow=pow.add(0.25)
+if(hasMilestone("hq",22))pow=pow.add(hasMilestone("hq",35)?n(0.25).mul(challengeEffect("hq", 12).log10().div(1000)).max(0.25):0.25)
         let eff = n(pow).pow(player.sbg.points)
 
         return eff
     },
 ggain() {
 let pow=n(1.5)
-if(hasMilestone("hq",22))pow=pow.add(hasMilestone("hq",26)?n(0.25).mul(challengeEffect("hq", 12).log10().div(hasMilestone("hq",29)?250:308)):0.25)
+if(hasMilestone("hq",22))pow=pow.add(hasMilestone("hq",26)?n(0.25).mul(challengeEffect("hq", 12).log10().div(hasMilestone("hq",29)?250:308)).max(0.25):0.25)
         let eff = n(pow).pow(player.sbg.points)
 if(hasMilestone("hq",9))eff=eff.mul(challengeEffect("hq", 11).plus(10).log10())
 if(hasMilestone("hq",30))eff=eff.mul(player.bg.g.plus(10).log10())
+if(hasMilestone("hq",38))eff=eff.mul(player.sbg.g.plus(10).log10())
 if(player.sbg.points.lt(1))eff=n(0)
         return eff
     },
 geff() {
-let pow=n(hasUpgrade("tes", 55)?1:0.5)
+let pow=n(hasMilestone("hq",36)?1.1:hasUpgrade("tes", 55)?1:0.5)
 
         let eff = player.sbg.g.plus(1).log10().plus(1).pow(pow)
 if (hasMilestone("sbg",3))eff=eff.mul(player.sbg.points.plus(1).log10().plus(1))

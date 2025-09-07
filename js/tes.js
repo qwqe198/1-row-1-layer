@@ -43,6 +43,7 @@ if(hasMilestone("sbg",1))var pow=n(player.tes.ts).plus(2)
 pow=pow.add(getBuyableAmount(this.layer, 13))
         var gain = n(pow).pow(getBuyableAmount(this.layer, 12).add(getBuyableAmount(this.layer, 13)))
 gain=gain.mul(layers.hq.heff())
+if(hasMilestone("hq",37))mult=mult.mul(challengeEffect("hq", 11).plus(10).log10())
 if(getBuyableAmount(this.layer, 12).lt(1))gain=n(0)
         return gain
     },
@@ -57,6 +58,7 @@ teeff() {
 var pow=n(1.5)
 let eff = player.tes.te.plus(1).log10().plus(1).pow(pow)
 if(hasUpgrade("tes",41))eff=eff.pow(upgradeEffect("tes",41))
+if(hasUpgrade("hq",24))eff=eff.pow(1.75)
         return eff
     },
     layerShown() { return player.points.gte(1e30)||player.tes.points.gte(1)||getBuyableAmount(this.layer, 11).gte(1) },
@@ -230,7 +232,7 @@ if(hasMilestone("hq",16))eff=eff.pow(layers.tes.ll())
 23: {
             cost(x = getBuyableAmount(this.layer, this.id)) {
                 var c = n("1e3550").pow(n(1.05).pow(x))
-
+if(hasMilestone("hq",39))c=c.div(challengeEffect("hq", 21))
                 return c
  },
             display() { return `增幅器和生成器效果底数<br />x${format(buyableEffect(this.layer, this.id))}(基于空间能量提升).花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}生成器能量<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
@@ -529,7 +531,7 @@ upgrades: {
         },
 55: {
           
-            description: "超级生成器能量效果变得更好,解锁新层级",
+            description: "超级生成器能量效果变得更好(lgx^0.5>lgx),解锁新层级",
             cost() { return n("1e390") },
             unlocked() { return hasUpgrade("tes", 54) },
 
@@ -610,7 +612,7 @@ tabFormat: {
             let kept = ["unlocked", "auto"]
            
                 
-              if (hasMilestone("sbg",1)) kept.push("milestones")
+              if (hasMilestone("sbg",1)||hasMilestone("hq",34)) kept.push("milestones")
             layerDataReset(this.layer, kept)
         }
 
@@ -628,7 +630,7 @@ if(hasMilestone("hq", 2))setBuyableAmount(this.layer, 12, player.tes.points.add(
 if(hasMilestone("hq", 4))setBuyableAmount(this.layer, 13, player.bg.points.sub(180).root(2).max(0).floor().add(1).max(getBuyableAmount("tes", 13)))
 if(hasMilestone("hq", 10))setBuyableAmount(this.layer, 21, player.bg.g.max(1).log10().div(hasMilestone("hq",31)?1:50).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 21)))
 if(hasMilestone("hq", 12))setBuyableAmount(this.layer, 22, player.bg.g.max(1).log10().div(hasMilestone("hq",31)?1:70).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 22)))
-if(hasMilestone("hq", 15))setBuyableAmount(this.layer, 23, player.bg.g.max(1).log10().div(3550).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 23)))
+if(hasMilestone("hq", 15))setBuyableAmount(this.layer, 23, player.bg.g.max(1).mul(hasMilestone("hq",39)?challengeEffect("hq", 21):1).log10().div(3550).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 23)))
     },
   hotkeys: [
         { key: "t", description: "t: 进行增强点数,时间胶囊和空间能量重置", onPress() { if (canReset(this.layer)) doReset(this.layer) } },

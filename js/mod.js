@@ -40,14 +40,14 @@ gain=n(1)
 if(hasUpgrade("p",12))gain=gain.mul(upgradeEffect("p",12))
 if(hasUpgrade("p",13))gain=gain.mul(upgradeEffect("p",13))
 if(hasUpgrade("p",22))gain=gain.mul(upgradeEffect("p",22))
-if(hasMilestone("hq",20)&&hasUpgrade("bg",33))gain=gain.mul(upgradeEffect("bg",33))
-if(hasMilestone("hq",23))gain=gain.mul(n(2).pow(getBuyableAmount("tes", 11)))
+if((hasMilestone("hq",20)&&hasUpgrade("bg",33))&&!inChallenge("hq",22))gain=gain.mul(upgradeEffect("bg",33))
+if(hasMilestone("hq",23)&&!inChallenge("hq",22))gain=gain.mul(n(2).pow(getBuyableAmount("tes", 11)))
 gain=gain.mul(buyableEffect("tes",21))
-gain=gain.mul(layers.bg.beff())
-gain=gain.mul(layers.bg.geff())
-gain=gain.mul(layers.tes.teeff())
-gain=gain.mul(layers.hq.heff())
-gain=gain.mul(layers.hq.qeff())
+if(!inChallenge("hq",22))gain=gain.mul(layers.bg.beff())
+if(!inChallenge("hq",22))gain=gain.mul(layers.bg.geff())
+if(!inChallenge("hq",22))gain=gain.mul(layers.tes.teeff())
+if(!inChallenge("hq",22))gain=gain.mul(layers.hq.heff())
+if(!inChallenge("hq",22))gain=gain.mul(layers.hq.qeff())
 	return gain
 }
 
@@ -57,7 +57,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-function () { return `作者 22222 残局18诡异层` },
+function () { return `作者 22222 残局20诡异层` },
 
 
 ]

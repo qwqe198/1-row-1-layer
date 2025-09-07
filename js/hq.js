@@ -14,7 +14,7 @@ q: new ExpantaNum(0),
 let pow=player.points.plus(1).log10().plus(1).log10().plus(1)
 
         let eff = player.hq.points.plus(10).log10().plus(2).mul(pow).pow(pow).max(1)
-
+if(hasUpgrade("hq",23))eff=eff.pow(3)
 if(player.hq.points.lt(1))eff=n(1)
 
         return eff
@@ -24,6 +24,7 @@ if(player.hq.points.lt(1))eff=n(1)
 
         let eff = buyableEffect("hq", 11).max(1)
 if(hasUpgrade("hq",11))eff=eff.mul(upgradeEffect("hq",11))
+if(hasMilestone("hq",37))mult=mult.mul(challengeEffect("hq", 11).plus(10).log10())
 if(player.hq.points.lt(1))eff=n(0)
         return eff
     },  
@@ -156,6 +157,20 @@ effect() {
                 return b;
             },
             effectDisplay() { return "+"+format(this.effect())  },
+            unlocked() { return true },
+
+        },
+23: {
+            description: "障碍灵魂的效果变为原来的3次方",
+            cost() { return n(5e21) },
+
+            unlocked() { return true },
+
+        },
+24: {
+            description: "时间能量的效果被提升到1.75次幂",
+            cost() { return n(1.5e23) },
+
             unlocked() { return true },
 
         },
@@ -326,6 +341,46 @@ milestones: {
         effectDescription: "降低诡异层价格",
         done() { return challengeEffect("hq", 11).gte("1e454") }
     },
+34: {
+        requirementDescription: "18诡异层",
+        effectDescription: "重置时保留tes里程碑",
+        done() { return getBuyableAmount(this.layer, 11).gte(18)}
+    },
+35: {
+        requirementDescription: "在速度之翼中获得1e1250点数",
+        effectDescription: "1e308奖励对超级增幅器修改为每1e1000就+0.25",
+        done() { return challengeEffect("hq", 12).gte("1e1250") }
+    },
+36: {
+        requirementDescription: "19诡异层",
+        effectDescription: "提升超级生成器能量的效果公式(lgx>lgx^1.1)",
+        done() { return getBuyableAmount(this.layer, 11).gte(19)}
+    },
+37: {
+        requirementDescription: "在升级荒漠中获得1e521点数",
+        effectDescription: "该挑战最高点数的对数加成时间能量和诡异能量获取",
+        done() { return challengeEffect("hq", 11).gte("1e521") }
+    },
+38: {
+        requirementDescription: "在速度之翼中获得1e1375点数",
+        effectDescription: "超级生成器能量加成自身获取",
+        done() { return challengeEffect("hq", 12).gte("1e1375") }
+    },
+39: {
+        requirementDescription: "在空间紧缺中获得1e3550点数",
+        effectDescription: "该障碍中最高点数降低空间建筑3价格",
+        done() { return challengeEffect("hq", 21).gte("1e3550") }
+    },
+40: {
+        requirementDescription: "20诡异层",
+        effectDescription: "解锁第4个障碍",
+        done() { return getBuyableAmount(this.layer, 11).gte(20)}
+    },
+41: {
+        requirementDescription: "在弱化中获得1e227点数",
+        effectDescription: "咕咕咕",
+        done() { return challengeEffect("hq", 21).gte("1e227") }
+    },
 },
 challenges: {
 11: {
@@ -400,6 +455,31 @@ return re
 unlock(){return },
             onExit() {
                 player.hq.challenges[21] = player.points.max(challengeEffect("hq", 21)).max(0)
+            },
+            rewardDisplay(){return `最高点数:${format(this.rewardEffect())}`}
+        },
+22: {
+            name: "弱化",
+            challengeDescription: "只有声望升级和第一建筑能增益点数获取",
+            unlocked() { return hasMilestone("hq",40) },
+            rewardDescription(){
+               
+                return "见里程碑"
+            },
+            canComplete: false,
+            completionLimit: Infinity,
+            goal: Infinity,
+            goalDescription(){return "更多点数"},
+                       rewardEffect() {
+let re=n(0)
+  if(inChallenge("hq",22)) re=re.max(player.points).max(challengeEffect("hq", 22))
+ if(!inChallenge("hq",22))re=re.max(player.hq.challenges[22])
+return re
+            },
+           
+unlock(){return },
+            onExit() {
+                player.hq.challenges[22] = player.points.max(challengeEffect("hq", 22)).max(0)
             },
             rewardDisplay(){return `最高点数:${format(this.rewardEffect())}`}
         },
