@@ -133,6 +133,11 @@ milestones: {
         effectDescription: "超级增幅器和生成器不重置任何东西(在21诡异层时需要约1500太阳能量获得9阳光)",
         done() { return player.oss.points.gte(10) }
     },
+ 3: {
+        requirementDescription: "20阳光",
+        effectDescription: "生成器能量效果公式变得更好(lgx^(lgx^0.425)>lgx^(lgx^0.43))",
+        done() { return player.oss.points.gte(20) }
+    },
 },
     tabFormat: {
 

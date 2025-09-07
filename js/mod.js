@@ -57,7 +57,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-function () { return `作者 22222 残局20阳光` },
+function () { return `作者 22222 残局50阳光` },
 
 
 ]

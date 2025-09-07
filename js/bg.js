@@ -68,7 +68,7 @@ if(player.bg.points.lt(1))eff=n(0)
     },
 geff() {
 let pow=n(2)
-if(hasUpgrade("p",52)&&!inChallenge("hq",11))pow=player.bg.g.max(10).log10().pow(hasUpgrade("bg",25)?0.425:hasUpgrade("tes",12)?0.4:0.375).plus(2)
+if(hasUpgrade("p",52)&&!inChallenge("hq",11))pow=player.bg.g.max(10).log10().pow(hasMilestone("oss",3)?0.43:hasUpgrade("bg",25)?0.425:hasUpgrade("tes",12)?0.4:0.375).plus(2)
 if(inChallenge("hq",12))pow=pow.max(10).log10()
         let eff = player.bg.g.max(10).log10().plus(1).pow(pow)
 if(hasUpgrade("bg",24))eff=eff.pow(1.2)
