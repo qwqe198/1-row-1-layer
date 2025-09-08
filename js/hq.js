@@ -348,7 +348,7 @@ milestones: {
     },
 35: {
         requirementDescription: "在速度之翼中获得1e1250点数",
-        effectDescription: "1e308奖励对超级增幅器修改为每1e1000就+0.25",
+        effectDescription: "1e308奖励对超级增幅器公式修改为(0.25x(lgx/1000)^0.5)",
         done() { return challengeEffect("hq", 12).gte("1e1250") }
     },
 36: {
@@ -567,6 +567,7 @@ tabFormat: {
     ],
  update(diff) {
     player.hq.q=player.hq.q.add(layers.hq.qgain().mul(diff))
+if(hasMilestone("oss",5))player.hq.points=player.hq.points.max(5)
     },
  doReset(resettingLayer) {
         if (layers[resettingLayer].row > layers[this.layer].row) {

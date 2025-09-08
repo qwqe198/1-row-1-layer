@@ -22,7 +22,7 @@ g:new ExpantaNum(0),
     effectDescription() { return `增幅器底数x${format(this.beff())}<br>你有${format(player.sbg.g)}超级生成器能量(+${format(layers.sbg.ggain())}/s),生成器底数x${format(this.geff())}.` },
     beff() {
 let pow=n(1.5)
-if(hasMilestone("hq",22))pow=pow.add(hasMilestone("hq",35)?n(0.25).mul(challengeEffect("hq", 12).log10().div(1000)).max(0.25):0.25)
+if(hasMilestone("hq",22))pow=pow.add(hasMilestone("hq",35)?n(0.25).mul(challengeEffect("hq", 12).log10().div(1000).root(2)).max(0.25):0.25)
         let eff = n(pow).pow(player.sbg.points)
 
         return eff

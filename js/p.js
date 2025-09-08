@@ -20,7 +20,7 @@ addLayer("p", { //这是代码中的节点代码 例如player.p可以调用该�
 
         return 0
     },
-
+effectDescription() { return `这是一个基于声望树的mod,内容是把原版层级按照重置顺序合并为一行,为更快解锁不同的内容,加快了前期速度` },
     exponent: 0.5,
     baseAmount() { return player.points },//基础资源数量
     baseResource: "点数",//基础资源名称
@@ -59,6 +59,7 @@ if(hasUpgrade("p",31)&&!inChallenge("hq",11))mult=mult.pow(1.05)
             unlocked() { return hasUpgrade("p",11) },
  effect() {
                 let b = player.p.points.plus(2).pow(0.5)
+if(hasMilestone("oss",4))b=b.mul(1e25)
                 if(b.gte("1e1000"))b=b.log10().pow(1000/3)
 if(inChallenge("hq",11))b=n(1)
                 return b;

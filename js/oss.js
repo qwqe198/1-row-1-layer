@@ -34,7 +34,7 @@ seeff1() {
 let pow=n(1)
 
         let eff = player.oss.se.plus(1).log10().pow(pow)
-
+if(eff.gte(9))eff=eff.root(2).mul(3)
         return eff
     },
 seeff2() {
@@ -48,7 +48,7 @@ ssgain() {
 
 
         let eff = buyableEffect("oss", 11)
-
+if(hasMilestone("oss",4))eff=eff.mul(this.seeff1())
 
         return eff
     },
@@ -78,7 +78,7 @@ return req
     gainMult() { // 资源获取数量倍率
 req=n(21).sub(this.seeff1())
         mult = n(2).pow(getBuyableAmount("hq", 11).sub(req))
-
+mult=mult.mul(buyableEffect("oss",21))
         return mult
     },
     gainExp() { // 资源获取指数加成(与exponent相乘)
@@ -121,6 +121,36 @@ if(getBuyableAmount(this.layer, this.id).lt(1))eff=n(0)
             unlocked() { return true },
         },
   
+			21: {
+				title: "太阳核心",
+				gain() { return player.oss.points.div(2).root(1.5).pow(1).floor()
+ },
+				effect(x = getBuyableAmount(this.layer, this.id)) { 
+					let eff = x.add(1).log10().add(1)
+					
+					return eff
+				},
+				display() { // Everything else displayed in the buyable button after the title
+                   
+                    let display = ("献祭你所有的阳光，获得 "+format(tmp[this.layer].buyables[this.id].gain)+" 太阳核心\n"+
+					"需要: 2 阳光\n"+
+					"数量: " + format(player[this.layer].buyables[this.id])+((player[this.layer].buyables[this.id].gain||n(1)).eq(1)?"":(" x "+format(player[this.layer].buyables[this.id].effect))))+"\n"+
+					("效果: 加成阳光获取 "+format(tmp[this.layer].buyables[this.id].effect) + 'x')
+					return display;
+                },
+                unlocked() { return hasMilestone("oss",5) }, 
+                canAfford() { return player.oss.points.gte(2) },
+                buy() { 
+                    player.oss.points = n(0);
+					player.oss.buyables[this.id] = player.oss.buyables[this.id].plus(tmp[this.layer].buyables[this.id].gain);
+                },
+                buyMax() {
+					// I'll do this later ehehe
+				},
+                style: {'height':'140px', 'width':'140px'},
+				
+			},
+		
     },
 milestones: {
     1: {
@@ -137,6 +167,16 @@ milestones: {
         requirementDescription: "20阳光",
         effectDescription: "生成器能量效果公式变得更好(lgx^(lgx^0.425)>lgx^(lgx^0.43))",
         done() { return player.oss.points.gte(20) }
+    },
+ 4: {
+        requirementDescription: "50阳光",
+        effectDescription: "p升级12效果x1e25,阳光能量效果1加成子空间能量获取",
+        done() { return player.oss.points.gte(50) }
+    },
+5: {
+        requirementDescription: "100阳光",
+        effectDescription: "你的障碍灵魂和诡异不会低于5,解锁第一个阳光购买项",
+        done() { return player.oss.points.gte(100) }
     },
 },
     tabFormat: {
