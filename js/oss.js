@@ -79,6 +79,7 @@ return req
 req=n(21).sub(this.seeff1())
         mult = n(2).pow(getBuyableAmount("hq", 11).sub(req))
 mult=mult.mul(buyableEffect("oss",21))
+if(hasMilestone("hq",42))mult=mult.mul(player.hq.milestones.length-40).max(1)
         return mult
     },
     gainExp() { // 资源获取指数加成(与exponent相乘)
@@ -177,6 +178,11 @@ milestones: {
         requirementDescription: "100阳光",
         effectDescription: "你的障碍灵魂和诡异不会低于5,解锁第一个阳光购买项",
         done() { return player.oss.points.gte(100) }
+    },
+6: {
+        requirementDescription: "25太阳核心",
+        effectDescription: "重置时保留sbg里程碑",
+        done() { return getBuyableAmount(this.layer, 21).gte(25) }
     },
 },
     tabFormat: {

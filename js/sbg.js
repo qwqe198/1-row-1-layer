@@ -108,5 +108,14 @@ milestones: {
 hotkeys: [
         { key: "s", description: "s: 进行超级增幅器和生成器重置", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
     ],
+ doReset(resettingLayer) {
+        if (layers[resettingLayer].row > layers[this.layer].row) {
+            let kept = ["unlocked", "auto"]
+           
+                
+              if (hasMilestone("oss",6)) kept.push("milestones")
+            layerDataReset(this.layer, kept)
+        }
 
+    },
 })

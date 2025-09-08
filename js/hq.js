@@ -381,6 +381,11 @@ milestones: {
         effectDescription: "解锁新层级",
         done() { return challengeEffect("hq", 22).gte("1e248") }
     },
+42: {
+        requirementDescription: "在升级荒漠中获得1e775点数",
+        effectDescription: "阳光获取x(里程碑-40)",
+        done() { return challengeEffect("hq", 11).gte("1e775") }
+    },
 },
 challenges: {
 11: {
@@ -517,6 +522,10 @@ tabFormat: {
                 ],
     ["display-text",function () {
                    return getBuyableAmount("hq", 11).gte(1) ? `你有${format(player.hq.q)}诡异能量(+${format(layers.hq.qgain())}/s),使点数和生成器能量获取x${format(layers.hq.qeff())}`:""},
+                    
+                ],
+["display-text",function () {
+                   return  `你有${format(player.hq.milestones.length)}里程碑`},
                     
                 ],
                 "milestones",
