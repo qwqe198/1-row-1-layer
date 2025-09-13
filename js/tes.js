@@ -202,6 +202,7 @@ if(hasUpgrade("hq",22))x=x.add(upgradeEffect("hq",22));
 if(hasUpgrade("tes",53))x=x.mul(buyableEffect("tes",23));
 if(hasUpgrade("tes",24))x=x.pow(1.5);
 if(hasUpgrade("tes",31))x=x.pow(1.5);
+x=x.pow(buyableEffect("tes",25).add(1));
                  let eff = x.add(1).pow(player.tes.ts);
 if(hasMilestone("hq",16))eff=eff.pow(layers.tes.ll())
                 return eff
@@ -228,6 +229,7 @@ c=c.div(layers.oss.sseff2())
 if(hasUpgrade("hq",22))x=x.add(upgradeEffect("hq",22));
 if(hasUpgrade("tes",53))x=x.mul(buyableEffect("tes",23));
 if(hasUpgrade("tes",24))x=x.pow(1.5);
+x=x.pow(buyableEffect("tes",25).add(1));
 if(hasUpgrade("tes",31))x=x.pow(1.5);
                  let eff = x.add(1).pow(player.tes.ts);
 if(hasMilestone("hq",16))eff=eff.pow(layers.tes.ll())
@@ -255,8 +257,10 @@ c=c.div(layers.oss.sseff2())
             effect(x = getBuyableAmount(this.layer, this.id)) {
 if(hasUpgrade("hq",22))x=x.add(upgradeEffect("hq",22));
 if(hasUpgrade("tes",64))x=x.add(upgradeEffect("tes",64));
+x=x.mul(buyableEffect("tes",25).add(1));
                  let eff = x.mul(player.tes.ts.mul(0.01)).add(1);
 if(hasMilestone("hq",16))eff=eff.mul(layers.tes.ll())
+
 eff=eff.max(1)
                 return eff
             },
@@ -279,13 +283,37 @@ c=c.div(layers.oss.sseff2())
                 return "空间建筑4"
             },
             effect(x = getBuyableAmount(this.layer, this.id)) {
-
+x=x.add(buyableEffect("tes",25).mul(10));
                  let eff = n(1.01).pow(x);
 if(hasMilestone("hq",16))eff=eff.pow(layers.tes.ll())
 if(eff.gte(1.25))eff=eff.root(2).mul(n(1.25).pow(n(1).sub(1/2)))
                 return eff
             },
             unlocked() { return hasMilestone("hq", 18) },
+ style: {'height':'120px','width':'120px'},
+        },
+25: {
+            cost(x = getBuyableAmount(this.layer, this.id)) {
+                var c = n("1e57775").pow(n(1.15).pow(x))
+c=c.div(layers.oss.sseff2())
+                return c.max(1)
+ },
+            display() { return `<br />1,2建筑等级^${format(buyableEffect(this.layer, this.id).add(1))}第三x${format(buyableEffect(this.layer, this.id).add(1))},第四+${format(buyableEffect(this.layer, this.id).mul(10))}.花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}生成器能量<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
+            canAfford() { return player.bg.g.gte(this.cost()) },
+            buy() {
+                player.bg.g = player.bg.g.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            title() {
+                return "空间建筑5"
+            },
+            effect(x = getBuyableAmount(this.layer, this.id)) {
+
+                 let eff = x.mul(0.1)
+
+                return eff
+            },
+            unlocked() { return hasUpgrade("tes",65) },
  style: {'height':'120px','width':'120px'},
         },
     },
@@ -597,6 +625,14 @@ upgrades: {
             effectDisplay() { return "+"+format(this.effect()) },
 
         },
+65: {
+          
+            description: "解锁第五建筑",
+            cost() { return n("1e1250") },
+            unlocked() { return hasMilestone("oss", 11) },
+
+	
+        },
     },
 tabFormat: {
 "upg": {
@@ -687,7 +723,7 @@ player.tes.ts=player.tes.ts.max(getBuyableAmount(this.layer, 12))
     player.tes.te=player.tes.te.add(layers.tes.tegain().mul(diff))
 if(hasMilestone("hq", 1)&&!inChallenge("hq",31))setBuyableAmount(this.layer, 11, player.tes.points.add(1).log10().div(0.3010299956639812).root(1.5).floor().add(1).max(getBuyableAmount("tes", 11)))
 if(hasMilestone("hq", 2)&&!inChallenge("hq",31))setBuyableAmount(this.layer, 12, player.tes.points.add(1).log10().div(hasUpgrade("oss", 11)?0.9030899869919435:1).root(1.875).floor().add(1).max(getBuyableAmount("tes", 12)))
-if(hasMilestone("hq", 4))setBuyableAmount(this.layer, 13, player.bg.points.sub(180).root(2).max(0).floor().add(1).max(getBuyableAmount("tes", 13)))
+if(hasMilestone("hq", 4))setBuyableAmount(this.layer, 13, player.bg.points.sub(179).root(2).max(0).floor().add(1).max(getBuyableAmount("tes", 13)))
 if(hasMilestone("hq", 10))setBuyableAmount(this.layer, 21, player.bg.g.max(1).mul(layers.oss.sseff2()).log10().div(hasMilestone("hq",31)?1:50).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 21)))
 if(hasMilestone("hq", 12))setBuyableAmount(this.layer, 22, player.bg.g.max(1).mul(layers.oss.sseff2()).log10().div(hasMilestone("hq",31)?1:70).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 22)))
 if(hasMilestone("hq", 15))setBuyableAmount(this.layer, 23, player.bg.g.max(1).mul(layers.oss.sseff2()).mul(hasMilestone("hq",39)?challengeEffect("hq", 21):1).log10().div(3550).max(1).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("tes", 23)))

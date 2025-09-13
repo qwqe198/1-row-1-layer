@@ -258,7 +258,7 @@ player.oss.se = n(0);
 					return display;
                 },
                 unlocked() { return hasMilestone("oss",16) }, 
-                canAfford() { return player.oss.points.gte(1e5)&&player.oss.se.gte(1e8)&&player.oss.ss2.gte(10) },
+                canAfford() { return player.oss.points.gte(1e8)&&player.oss.se.gte(1e10)&&player.oss.ss2.gte(10) },
                 buy() { 
                     player.oss.points = n(0);
 player.oss.se = n(0);
