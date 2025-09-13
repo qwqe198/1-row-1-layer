@@ -228,7 +228,7 @@ if(getBuyableAmount(this.layer, this.id).lt(1))eff=n(0)
 					return display;
                 },
                 unlocked() { return hasMilestone("oss",10) }, 
-                canAfford() { return player.oss.points.gte(1e5)&&player.oss.se.gte(1e8) },
+                canAfford() { return player.oss.points.gte(1e5)&&player.oss.se.gte(1e7) },
                 buy() { 
                     player.oss.points = n(0);
 player.oss.se = n(0);
