@@ -21,6 +21,8 @@ g:new ExpantaNum(0),
     },
     effectDescription() { return `点数获取x${format(this.beff())}<br>你有${format(player.bg.g)}生成器能量(+${format(layers.bg.ggain())}/s),点数获取x${format(this.geff())}.` },
     beff() {
+let sc1p=n(5)
+if(hasUpgrade("hq",31))sc1p=sc1p.root(upgradeEffect("hq",31))
 let pow=n(2)
 pow=pow.add(buyableEffect("tes", 11))
 if(hasUpgrade("bg",14))pow=pow.add(upgradeEffect("bg",14))
@@ -33,8 +35,8 @@ pow=pow.mul(buyableEffect("tes",23))
 if(hasUpgrade("tes",32)&&hasMilestone("hq",32))pow=pow.pow(upgradeEffect("tes",32))
 if(inChallenge("hq",12))pow=pow.max(10).log10()
         let eff = n(pow).pow(player.bg.points)
-if(eff.gte(1e100))eff=eff.root(5).mul(1e80)
-if(eff.gte("1e1500"))eff=eff.root(5).mul("1e1200")
+if(eff.gte(1e100))eff=eff.root(sc1p).mul(n(1e100).pow(n(1).sub(n(1).div(sc1p))))
+if(eff.gte("1e1500"))eff=eff.root(5).mul(n("1e1500").pow(n(1).sub(1/5)))
         return eff
     },
 ggain() {
@@ -56,6 +58,7 @@ if(hasUpgrade("tes",22))eff=eff.mul(upgradeEffect("tes",22))
 if(hasUpgrade("tes",42))eff=eff.mul(layers.tes.teeff())
 if(hasUpgrade("tes",43))eff=eff.mul(buyableEffect("tes",21))
 if(hasUpgrade("tes",43))eff=eff.mul(buyableEffect("tes",22))
+if(hasUpgrade("tes",63))eff=eff.mul(upgradeEffect("tes",63))
 eff=eff.mul(layers.hq.qeff())
 if(hasMilestone("hq",24))eff=eff.mul(n(2).pow(player.bg.points))
 if(hasMilestone("hq",9)&&hasMilestone("hq",25))eff=eff.mul(challengeEffect("hq", 11))

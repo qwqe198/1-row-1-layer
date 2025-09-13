@@ -25,6 +25,7 @@ if(player.hq.points.lt(1))eff=n(1)
         let eff = buyableEffect("hq", 11).max(1)
 if(hasUpgrade("hq",11))eff=eff.mul(upgradeEffect("hq",11))
 if(hasMilestone("hq",37))mult=mult.mul(challengeEffect("hq", 11).plus(10).log10())
+if(hasMilestone("oss",12))mult=mult.mul(player.oss.points.add(1))
 if(player.hq.points.lt(1))eff=n(0)
         return eff
     },  
@@ -85,7 +86,9 @@ if(hasMilestone("hq",13)) pow=x.plus(2)
 if(hasUpgrade("hq",21)) pow=pow.mul(upgradeEffect("hq",21))
 if(hasMilestone("sbg",6)) pow=pow.mul(player.sbg.points.add(1))
                  let eff = n(pow).pow(x);
-
+if(hasMilestone("hq",44)) eff=eff.pow(1.25)
+if(hasMilestone("hq",45)) eff=eff.pow(1.1)
+eff=eff.pow(buyableEffect("oss",22))
                 return eff
             },
             unlocked() { return true },
@@ -174,6 +177,18 @@ effect() {
             unlocked() { return true },
 
         },
+31: {
+            description: "诡异层弱化增幅器效果一重软上限",
+            cost() { return n(1e36) },
+effect() {
+                let b = getBuyableAmount(this.layer, 11).pow(0.02).max(1)
+               
+                return b;
+            },
+            effectDisplay() { return "开"+format(this.effect())+"次根"  },
+            unlocked() { return true },
+
+        },
     },
 milestones: {
     1: {
@@ -217,9 +232,9 @@ milestones: {
         done() { return player.hq.points.gte(100) }
     },
 9: {
-        requirementDescription: "在升级荒漠中获得1e32点数",
+        requirementDescription: "在升级荒漠中获得1e30点数",
         effectDescription: "该障碍最高点数加成生成器能量,其对数加成超级生成器能量",
-        done() { return challengeEffect("hq", 11).gte(1e32) }
+        done() { return challengeEffect("hq", 11).gte(1e30) }
     },
 10: {
         requirementDescription: "5诡异层",
@@ -232,9 +247,9 @@ milestones: {
         done() { return player.hq.points.gte(500) }
     },
 12: {
-        requirementDescription: "在升级荒漠中获得1e47点数",
+        requirementDescription: "在升级荒漠中获得1e45点数",
         effectDescription: "解锁诡异升级,自动购买第二个空间建筑",
-        done() { return challengeEffect("hq", 11).gte(1e47) }
+        done() { return challengeEffect("hq", 11).gte(1e45) }
     },
 13: {
         requirementDescription: "1000障碍灵魂和诡异",
@@ -252,9 +267,9 @@ milestones: {
         done() { return getBuyableAmount(this.layer, 11).gte(7)}
     },
 16: {
-        requirementDescription: "在升级荒漠中获得1e107点数",
+        requirementDescription: "在升级荒漠中获得1e105点数",
         effectDescription: "解锁空间力量,它加成空间建筑效果,基于空间能量获得加成",
-        done() { return challengeEffect("hq", 11).gte(1e107) }
+        done() { return challengeEffect("hq", 11).gte(1e105) }
     },
 17: {
         requirementDescription: "8诡异层",
@@ -386,6 +401,21 @@ milestones: {
         effectDescription: "阳光获取x(里程碑-40)",
         done() { return challengeEffect("hq", 11).gte("1e775") }
     },
+43: {
+        requirementDescription: "在弱化中获得1e435点数",
+        effectDescription: "子空间能量第2个效果平方",
+        done() { return challengeEffect("hq", 22).gte("1e435") }
+    },
+44: {
+        requirementDescription: "在升级荒漠中获得1e1000点数",
+        effectDescription: "诡异层效果^1.25",
+        done() { return challengeEffect("hq", 11).gte("1e1000") }
+    },
+45: {
+        requirementDescription: "30诡异层",
+        effectDescription: "诡异层效果^1.1",
+        done() { return getBuyableAmount(this.layer, 11).gte(30)}
+    },
 },
 challenges: {
 11: {
@@ -488,6 +518,37 @@ unlock(){return },
             },
             rewardDisplay(){return `最高点数:${format(this.rewardEffect())}`}
         },
+			31: {
+				name: "永恒",
+			
+				completionLimit() { 
+					let lim = 10
+			
+					return lim
+				},
+				challengeDescription() {
+let eff = format(n("1.25").pow((player.hq.challenges[31]+1)**0.5))
+					let lim = this.completionLimit();
+					return "你只能买 10 个增强子,时间胶囊和空间能量，同时点数生成被开"+eff+"次根。<br>完成次数: "+format(player.hq.challenges[31])+"/"+lim;
+				},
+				unlocked() { return hasMilestone("oss",8) },
+				goal(x=player.hq.challenges[31]) { 
+					let goal = n("1e2025").mul(n(1e175).pow(x**1.25))
+				
+					return goal
+				},
+	
+				currencyDisplayName: "点数",
+				currencyInternalName: "points",
+				rewardDescription() { return "<b>永恒</b>加成超级生成器能量获取，基于当前游戏时间" },
+				rewardEffect() { 
+					let eff = n(player.timePlayed).pow(player.hq.challenges[31]*0.5)
+					
+					return eff;
+				},
+				rewardDisplay() { return format(this.rewardEffect())+"x" },
+				
+			},
 },
     layerShown() { return player.hq.points.gte(1)||hasUpgrade("tes",55)||getBuyableAmount(this.layer, 11).gte(1)},
     row: 4, // Row the layer is in on the tree (0 is the first row)  QwQ:1也可以当第一排
@@ -570,19 +631,20 @@ tabFormat: {
             unlocked() { return hasMilestone("hq",12) }
         },
     },
- 
+ autoUpgrade() { return hasMilestone("oss",9) },
   hotkeys: [
         { key: "h", description: "h: 进行障碍灵魂和诡异重置", onPress() { if (canReset(this.layer)) doReset(this.layer) } },
     ],
  update(diff) {
     player.hq.q=player.hq.q.add(layers.hq.qgain().mul(diff))
 if(hasMilestone("oss",5))player.hq.points=player.hq.points.max(5)
+if(hasMilestone("oss", 13))setBuyableAmount(this.layer, 11, player.hq.points.add(1).log10().div(0.3010299956639812).root(1.49).floor().add(1).max(getBuyableAmount("hq", 11)))
     },
  doReset(resettingLayer) {
         if (layers[resettingLayer].row > layers[this.layer].row) {
             let kept = ["unlocked", "auto"]
            
-                
+                if (hasMilestone("oss",14)) kept.push("milestones")
                kept.push("challenges")
             layerDataReset(this.layer, kept)
         }

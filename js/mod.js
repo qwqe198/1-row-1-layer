@@ -48,6 +48,7 @@ if(!inChallenge("hq",22))gain=gain.mul(layers.bg.geff())
 if(!inChallenge("hq",22))gain=gain.mul(layers.tes.teeff())
 if(!inChallenge("hq",22))gain=gain.mul(layers.hq.heff())
 if(!inChallenge("hq",22))gain=gain.mul(layers.hq.qeff())
+if(inChallenge("hq",31))gain=gain.root(n("1.25").pow((player.hq.challenges[31]+1)**0.5))
 	return gain
 }
 
@@ -57,7 +58,7 @@ function addedPlayerData() { return {
 
 // Display extra things at the top of the page
 var displayThings = [
-function () { return `作者 22222 残局1000阳光` },
+function () { return `作者 22222 残局1对流能` },
 
 
 ]

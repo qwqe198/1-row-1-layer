@@ -9,7 +9,7 @@ g:new ExpantaNum(0),
         }
     },
       
-    requires() { return new ExpantaNum(hasMilestone("hq", 13)?"97":"100") },
+    requires() { return new ExpantaNum(hasUpgrade("oss", 21)?"89":hasMilestone("hq", 13)?"97":"100") },
     color: "#3300ffff",
     resource: "超级增幅器和生成器", // 重置获得的资源名称
     type: "static", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
@@ -23,6 +23,7 @@ g:new ExpantaNum(0),
     beff() {
 let pow=n(1.5)
 if(hasMilestone("hq",22))pow=pow.add(hasMilestone("hq",35)?n(0.25).mul(challengeEffect("hq", 12).log10().div(1000).root(2)).max(0.25):0.25)
+pow=pow.mul(buyableEffect("oss",22))
         let eff = n(pow).pow(player.sbg.points)
 
         return eff
@@ -30,10 +31,12 @@ if(hasMilestone("hq",22))pow=pow.add(hasMilestone("hq",35)?n(0.25).mul(challenge
 ggain() {
 let pow=n(1.5)
 if(hasMilestone("hq",22))pow=pow.add(hasMilestone("hq",26)?n(0.25).mul(challengeEffect("hq", 12).log10().div(hasMilestone("hq",29)?250:308)).max(0.25):0.25)
+if(hasMilestone("oss",14))pow=pow.mul(buyableEffect("oss",22))
         let eff = n(pow).pow(player.sbg.points)
 if(hasMilestone("hq",9))eff=eff.mul(challengeEffect("hq", 11).plus(10).log10())
 if(hasMilestone("hq",30))eff=eff.mul(player.bg.g.plus(10).log10())
 if(hasMilestone("hq",38))eff=eff.mul(player.sbg.g.plus(10).log10())
+eff=eff.mul(challengeEffect("hq",31))
 if(player.sbg.points.lt(1))eff=n(0)
         return eff
     },
@@ -99,6 +102,11 @@ milestones: {
 6: {
         requirementDescription: "6超级增幅器和生成器",
         effectDescription: "超级增幅器和生成器加成诡异层底数",
+        done() { return player.sbg.points.gte(6) }
+    },
+7: {
+        requirementDescription: "7超级增幅器和生成器",
+        effectDescription: "超级增幅器和生成器加成子空间获取",
         done() { return player.sbg.points.gte(6) }
     },
 },
