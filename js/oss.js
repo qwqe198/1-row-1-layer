@@ -153,6 +153,21 @@ currencyDisplayName: "子空间",
             currencyInternalName: "ss2",
             currencyLayer: "oss",
         },
+ 23: {
+            description: "空间提供免费建筑4",
+            cost() { return n(1e11) },
+            unlocked() { return true },
+ effect() {
+                let b = player.tes.ts.mul(0.01)
+                
+                return b;
+            },
+ 
+            effectDisplay() { return "+"+format(this.effect()) },
+currencyDisplayName: "子空间能量",
+            currencyInternalName: "ss",
+            currencyLayer: "oss",
+        },
     },
 buyables: {
        
@@ -354,6 +369,12 @@ milestones: {
         effectDescription: "解锁第三个阳光购买项",
         done() { return player.oss.points.gte(1e8) }
     },
+17: {
+        requirementDescription: "1e9阳光",
+        effectDescription: "每秒自动获得100%障碍灵魂和诡异",
+        done() { return player.oss.points.gte(1e9) }
+    },
+
 },
     tabFormat: {
 

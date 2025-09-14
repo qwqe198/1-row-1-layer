@@ -15,6 +15,10 @@ let pow=player.points.plus(1).log10().plus(1).log10().plus(1)
 
         let eff = player.hq.points.plus(10).log10().plus(2).mul(pow).pow(pow).max(1)
 if(hasUpgrade("hq",23))eff=eff.pow(3)
+if(hasMilestone("hq",47)) eff=eff.pow(1.2)
+if(hasMilestone("hq",48)) eff=eff.pow(1.15)
+if(hasMilestone("hq",49)) eff=eff.pow(1.1)
+if(hasMilestone("hq",50)) eff=eff.pow(1.05)
 if(player.hq.points.lt(1))eff=n(1)
 
         return eff
@@ -93,7 +97,75 @@ eff=eff.pow(buyableEffect("oss",22))
             },
             unlocked() { return true },
         },
-  
+   21: {
+            cost(x = getBuyableAmount(this.layer, this.id)) {
+                var c = n(1e56).pow(n(1.05).pow(x))
+
+                return c.max(1)
+ },
+            display() { return `升级11效果<br />^${format(buyableEffect(this.layer, this.id))}.花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}诡异<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
+            canAfford() { return player.hq.points.gte(this.cost()) },
+            buy() {
+                player.hq.points = player.hq.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            title() {
+                return "集中改良"
+            },
+            effect(x = getBuyableAmount(this.layer, this.id)) {
+
+                 let eff = x.add(1).pow(0.1);
+                return eff
+            },
+            unlocked() { return hasUpgrade("hq",32) },
+ style: {'height':'120px','width':'120px'},
+        },
+  22: {
+            cost(x = getBuyableAmount(this.layer, this.id)) {
+                var c = n(1e65).pow(n(1.05).pow(x))
+
+                return c.max(1)
+ },
+            display() { return `升级12效果<br />^${format(buyableEffect(this.layer, this.id))}.花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}诡异<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
+            canAfford() { return player.hq.points.gte(this.cost()) },
+            buy() {
+                player.hq.points = player.hq.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            title() {
+                return "第二改良"
+            },
+            effect(x = getBuyableAmount(this.layer, this.id)) {
+
+                 let eff = x.add(1).pow(0.25);
+                return eff
+            },
+            unlocked() { return hasUpgrade("hq",32) },
+ style: {'height':'120px','width':'120px'},
+        },
+  23: {
+            cost(x = getBuyableAmount(this.layer, this.id)) {
+                var c = n(1e67).pow(n(1.05).pow(x))
+
+                return c.max(1)
+ },
+            display() { return `升级13效果<br />^${format(buyableEffect(this.layer, this.id))}.花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}诡异<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
+            canAfford() { return player.hq.points.gte(this.cost()) },
+            buy() {
+                player.hq.points = player.hq.points.sub(this.cost())
+                setBuyableAmount(this.layer, this.id, getBuyableAmount(this.layer, this.id).add(1))
+            },
+            title() {
+                return "4级改良"
+            },
+            effect(x = getBuyableAmount(this.layer, this.id)) {
+
+                 let eff = x.add(1).pow(0.5);
+                return eff
+            },
+            unlocked() { return hasUpgrade("hq",32) },
+ style: {'height':'120px','width':'120px'},
+        },
     },
  upgrades: {
  11: {
@@ -101,7 +173,7 @@ eff=eff.pow(buyableEffect("oss",22))
             cost() { return n(1000) },
  effect() {
                 let b = player.hq.points.add(1).pow(player.hq.upgrades.length**0.5)
-               
+               b=b.pow(buyableEffect("hq",21))
                 return b;
             },
             effectDisplay() { return format(this.effect()) + "倍" },
@@ -113,7 +185,7 @@ eff=eff.pow(buyableEffect("oss",22))
             cost() { return n(5000) },
  effect() {
                 let b = player.hq.points.add(10).log10().add(10).log10()
-               
+               b=b.pow(buyableEffect("hq",22))
                 return b;
             },
             effectDisplay() { return format(this.effect()) + "倍" },
@@ -125,7 +197,7 @@ eff=eff.pow(buyableEffect("oss",22))
             cost() { return n(5e8) },
  effect() {
                 let b = player.hq.points.add(10).log10()
-               
+               b=b.pow(buyableEffect("hq",23))
                 return b;
             },
             effectDisplay() { return format(this.effect()) + "倍" },
@@ -186,6 +258,13 @@ effect() {
                 return b;
             },
             effectDisplay() { return "开"+format(this.effect())+"次根"  },
+            unlocked() { return true },
+
+        },
+32: {
+            description: "解锁诡异改良",
+            cost() { return n(1e56) },
+
             unlocked() { return true },
 
         },
@@ -416,6 +495,31 @@ milestones: {
         effectDescription: "诡异层效果^1.1",
         done() { return getBuyableAmount(this.layer, 11).gte(30)}
     },
+46: {
+        requirementDescription: "完成3次永恒",
+        effectDescription: "前20次永恒每次使生成器能量效果公式+0.001(lgx^(lgx^从0.43到0.45))",
+        done() { return player.hq.challenges[31]>=3 }
+    },
+47: {
+        requirementDescription: "在升级荒漠中获得1e2950点数",
+        effectDescription: "障碍灵魂效果^1.2",
+        done() { return challengeEffect("hq", 11).gte("1e2950") }
+    },
+48: {
+        requirementDescription: "在速度之翼中获得1e3150点数",
+        effectDescription: "障碍灵魂效果^1.15",
+        done() { return challengeEffect("hq", 12).gte("1e3150") }
+    },
+49: {
+        requirementDescription: "在空间紧缺中获得1e6050点数",
+        effectDescription: "障碍灵魂效果^1.1",
+        done() { return challengeEffect("hq", 21).gte("1e6050") }
+    },
+50: {
+        requirementDescription: "在弱化中获得1e850点数",
+        effectDescription: "障碍灵魂效果^1.05",
+        done() { return challengeEffect("hq", 22).gte("1e850") }
+    },
 },
 challenges: {
 11: {
@@ -639,6 +743,11 @@ tabFormat: {
     player.hq.q=player.hq.q.add(layers.hq.qgain().mul(diff))
 if(hasMilestone("oss",5))player.hq.points=player.hq.points.max(5)
 if(hasMilestone("oss", 13))setBuyableAmount(this.layer, 11, player.hq.points.add(1).log10().div(0.3010299956639812).root(1.49).floor().add(1).max(getBuyableAmount("hq", 11)))
+//诡异改良
+if(player.hq.points.gte(1e56))setBuyableAmount(this.layer, 21, player.hq.points.log10().div(56).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("hq", 21)))
+if(player.hq.points.gte(1e65))setBuyableAmount(this.layer, 22, player.hq.points.log10().div(65).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("hq", 22)))
+if(player.hq.points.gte(1e67))setBuyableAmount(this.layer, 23, player.hq.points.log10().div(67).log10().div(0.0211892990699380).max(0).floor().add(1).max(getBuyableAmount("hq", 23)))
+
     },
  doReset(resettingLayer) {
         if (layers[resettingLayer].row > layers[this.layer].row) {
@@ -649,5 +758,9 @@ if(hasMilestone("oss", 13))setBuyableAmount(this.layer, 11, player.hq.points.add
             layerDataReset(this.layer, kept)
         }
 
+    },
+ passiveGeneration() {
+        if (hasMilestone("oss", 17)) return 1
+        return 0
     },
 })

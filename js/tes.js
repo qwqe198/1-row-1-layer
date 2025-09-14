@@ -283,7 +283,8 @@ c=c.div(layers.oss.sseff2())
                 return "空间建筑4"
             },
             effect(x = getBuyableAmount(this.layer, this.id)) {
-x=x.add(buyableEffect("tes",25).mul(10));
+x=x.add(buyableEffect("tes",25).mul(10).pow(0.5));
+if(hasUpgrade("oss",23))x=x.add(buyableEffect("oss",23));
                  let eff = n(1.01).pow(x);
 if(hasMilestone("hq",16))eff=eff.pow(layers.tes.ll())
 if(eff.gte(1.25))eff=eff.root(2).mul(n(1.25).pow(n(1).sub(1/2)))
@@ -294,11 +295,11 @@ if(eff.gte(1.25))eff=eff.root(2).mul(n(1.25).pow(n(1).sub(1/2)))
         },
 25: {
             cost(x = getBuyableAmount(this.layer, this.id)) {
-                var c = n("1e57775").pow(n(1.15).pow(x))
+                var c = n("1e57500").pow(n(1.47).pow(x))
 c=c.div(layers.oss.sseff2())
                 return c.max(1)
  },
-            display() { return `<br />1,2建筑等级^${format(buyableEffect(this.layer, this.id).add(1))}第三x${format(buyableEffect(this.layer, this.id).add(1))},第四+${format(buyableEffect(this.layer, this.id).mul(10))}.花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}生成器能量<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
+            display() { return `<br />1,2建筑等级^${format(buyableEffect(this.layer, this.id).add(1))}第三x${format(buyableEffect(this.layer, this.id).add(1))},第四+${format(buyableEffect(this.layer, this.id).mul(10).pow(0.5))}.花费: ${format(this.cost(getBuyableAmount(this.layer, this.id)))}生成器能量<br>等级: ${format(getBuyableAmount(this.layer, this.id))}` },
             canAfford() { return player.bg.g.gte(this.cost()) },
             buy() {
                 player.bg.g = player.bg.g.sub(this.cost())

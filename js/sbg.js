@@ -86,7 +86,7 @@ milestones: {
     },
 3: {
         requirementDescription: "3超级增幅器和生成器",
-        effectDescription: "每秒自动获得100%增强点,超级生成器能量效果基于超级增幅器和生成器增强",
+        effectDescription: "每秒自动获得100%增强,超级生成器能量效果基于超级增幅器和生成器增强",
         done() { return player.sbg.points.gte(3) }
     },
 4: {

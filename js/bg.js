@@ -71,7 +71,7 @@ if(player.bg.points.lt(1))eff=n(0)
     },
 geff() {
 let pow=n(2)
-if(hasUpgrade("p",52)&&!inChallenge("hq",11))pow=player.bg.g.max(10).log10().pow(hasMilestone("oss",3)?0.43:hasUpgrade("bg",25)?0.425:hasUpgrade("tes",12)?0.4:0.375).plus(2)
+if(hasUpgrade("p",52)&&!inChallenge("hq",11))pow=player.bg.g.max(10).log10().pow(hasMilestone("hq",46)?n(0.43+player.hq.challenges[31]*0.001).min(0.45):hasMilestone("oss",3)?0.43:hasUpgrade("bg",25)?0.425:hasUpgrade("tes",12)?0.4:0.375).plus(2)
 if(inChallenge("hq",12))pow=pow.max(10).log10()
         let eff = player.bg.g.max(10).log10().plus(1).pow(pow)
 if(hasUpgrade("bg",24))eff=eff.pow(1.2)
@@ -240,7 +240,7 @@ milestones: {
 
         },
  25: {
-            description: "修改生成器能量效果公式lgx^(lgx^0.4)<br />>lgx^(lgx^0.425)",
+            description: "修改生成器能量效果公式lgx^(lgx^0.4)<br />lgx^(lgx^0.425)",
             cost() { return new ExpantaNum("1e375") },
 
             unlocked() { return hasUpgrade("bg",24) },
