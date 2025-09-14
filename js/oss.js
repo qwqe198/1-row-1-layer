@@ -27,7 +27,7 @@ segain() {
 let pow=n(1)
 
         let eff = n(player.oss.points).pow(pow)
-
+eff=eff.mul(layers.mba.yseff())
 if(player.oss.points.lt(1))eff=n(0)
         return eff
     },
@@ -52,6 +52,7 @@ ssgain() {
 if(hasMilestone("oss",4))eff=eff.mul(this.seeff1())
 if(hasUpgrade("oss",13))eff=eff.mul(upgradeEffect("oss",13))
 if (hasMilestone("sbg",7))eff=eff.mul(player.sbg.points.plus(1))
+eff=eff.mul(layers.mba.yseff())
         return eff
     },
 sseff1() {
@@ -189,6 +190,7 @@ buyables: {
             effect(x = getBuyableAmount(this.layer, this.id)) {
 let pow=n(2)
 pow=pow.mul(buyableEffect("oss",23))
+pow=pow.mul(layers.mba.jjeff())
                  let eff = n(pow).pow(x);
 if(getBuyableAmount(this.layer, this.id).lt(1))eff=n(0)
                 return eff

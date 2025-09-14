@@ -60,6 +60,7 @@ let pow=n(2)
         mult = new ExpantaNum(1)
 if(hasMilestone("sbg",5))mult=mult.mul(player.sbg.points.plus(1))
 if(hasUpgrade("hq",13))mult=mult.mul(upgradeEffect("hq",13))
+mult=mult.mul(layers.mba.yseff())
        return mult
     },
     gainExp() { // 资源获取指数加成(与exponent相乘)
@@ -89,6 +90,7 @@ let pow=n(2)
 if(hasMilestone("hq",13)) pow=x.plus(2)
 if(hasUpgrade("hq",21)) pow=pow.mul(upgradeEffect("hq",21))
 if(hasMilestone("sbg",6)) pow=pow.mul(player.sbg.points.add(1))
+pow=pow.mul(layers.mba.xjeff())
                  let eff = n(pow).pow(x);
 if(hasMilestone("hq",44)) eff=eff.pow(1.25)
 if(hasMilestone("hq",45)) eff=eff.pow(1.1)
@@ -709,6 +711,10 @@ tabFormat: {
                 ],
     ["display-text",function () {
                    return getBuyableAmount("hq", 11).gte(1) ? `你有${format(player.hq.q)}诡异能量(+${format(layers.hq.qgain())}/s),使点数和生成器能量获取x${format(layers.hq.qeff())}`:""},
+                    
+                ],
+["display-text",function () {
+                   return  `你有${format(player.points)}点数`},
                     
                 ],
                 "challenges",
