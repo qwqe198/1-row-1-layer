@@ -374,7 +374,11 @@ milestones: {
         effectDescription: "每秒自动获得100%障碍灵魂和诡异",
         done() { return player.oss.points.gte(1e9) }
     },
-
+18: {
+        requirementDescription: "1e13阳光",
+        effectDescription: "解锁新层级",
+        done() { return player.oss.points.gte(1e13) }
+    },
 },
     tabFormat: {
 

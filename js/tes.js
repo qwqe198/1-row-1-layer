@@ -720,6 +720,7 @@ autoUpgrade() { return hasMilestone("sbg",2) },
         return 0
     },
  update(diff) {
+player.tes.points=player.tes.points.max(0)
 player.tes.ts=player.tes.ts.max(getBuyableAmount(this.layer, 12))
     player.tes.te=player.tes.te.add(layers.tes.tegain().mul(diff))
 if(hasMilestone("hq", 1)&&!inChallenge("hq",31))setBuyableAmount(this.layer, 11, player.tes.points.add(1).log10().div(0.3010299956639812).root(1.5).floor().add(1).max(getBuyableAmount("tes", 11)))
